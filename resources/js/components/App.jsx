@@ -1,13 +1,15 @@
 import react from "react";
 import { createRoot } from "react-dom/client";
-export default function App(){
-    return(
+export default function App() {
+    return (
         <>
-        <h1>Hola</h1>
+            <div>
+                <h1>Hola</h1>
+            </div>
         </>
     )
 }
 
-if(document.getElementById('app')){
-    createRoot(document.getElementById('app')).render(<App/>);
+if (document.getElementById('app')) {
+    createRoot(document.getElementById('app')).render(<App />);
 }
