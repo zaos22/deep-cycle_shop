@@ -7,5 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class Montage extends Model
 {
-    use HasFactory;
+    protected $fillable = [
+        'material_id',
+        'user_id',
+    ];
+
 }

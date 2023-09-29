@@ -7,5 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class Payroll extends Model
 {
-    use HasFactory;
+    protected $fillable = [
+        'salary',
+        'user_id',
+        'payday',
+    ];
+
 }

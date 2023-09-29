@@ -7,5 +7,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class Bill_lines extends Model
 {
-    use HasFactory;
+    protected $fillable = [
+        'unity',
+        'product_id',
+        'user_id',
+        'bill_id',
+    ];
+
 }
