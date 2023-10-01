@@ -16,3 +16,20 @@
 .colorbg2 {
     background-color: #74CDFF;
 }
+
+.btnbg {
+    background-color: #FFC145;
+}
+
+.offa {
+    text-decoration: none;
+    color: #000;
+}
+
+.offa:hover {
+    background-color: #FFC145;
+}
+
+.drpdown {
+    background-color: #E4F0FF;
+}
