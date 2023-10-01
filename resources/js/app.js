@@ -1,6 +1,5 @@
 import './bootstrap';
-import './components/App';
-
+import './components/Menu';
 import Alpine from 'alpinejs';
 
 window.Alpine = Alpine;

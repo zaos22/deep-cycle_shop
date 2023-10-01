@@ -1,3 +1,18 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+.colorbg {
+    background-color: #ffeada;
+}
+
+.headerbg {
+    background-color: #e4f0ff;
+}
+
+.colorbg1 {
+    background-color: #ddf9e4;
+}
+
+.colorbg2 {
+    background-color: #74CDFF;
+}

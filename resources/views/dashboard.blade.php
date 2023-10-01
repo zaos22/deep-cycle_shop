@@ -1,16 +1,14 @@
 <x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-            {{ __('Dashboard') }}
-        </h2>
-    </x-slot>
-
-    <div class="py-12">
+    <div class="text-center max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+        <h1 class="font-semibold text-4xl text black-800  text black-200 leading-tight">
+            {{ __('Menu') }}
+        </h1>
+    </div>
+    <div class="py-7">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 text-gray-900 dark:text-gray-100">
-                    {{ __("You're logged in!") }}
-                    <div id="app"></div>
+            <div class="colorbg1 overflow-hidden shadow-sm sm:rounded-lg">
+                <div class="p-6 text black-900  text black-100">
+                    <div id="menu"></div>
                 </div>
             </div>
         </div>
