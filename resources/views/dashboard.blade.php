@@ -10,7 +10,7 @@
     <div class="py-7">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="colorbg1 overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 text black-900  text black-100">
+                <div class="p-6 text black-900 flex items-center justify-center text black-100">
                     <div id="menu"></div>
                 </div>
             </div>

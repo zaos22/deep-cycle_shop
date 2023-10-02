@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->double('total');
             $table->foreignId('user_id')->references('id')->on('users');
+            $table->foreignId('suppliers_id')->references('id')->on('suppliers');
             $table->timestamps();
         });
     }

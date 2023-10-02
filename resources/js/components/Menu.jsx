@@ -1,24 +1,64 @@
 import react from "react";
 import { createRoot } from "react-dom/client";
 import Card from 'react-bootstrap/Card';
+import Col from 'react-bootstrap/Col';
+import Row from 'react-bootstrap/Row';
 import Button from 'react-bootstrap/Button';
-import 'bootstrap/dist/css/bootstrap.min.css';
+
 
 
 export default function Menu() {
 
+    const modules = [
+        {
+            id: 1,
+            title: 'Users',
+            description: '',
+            imageUrl: '/storage/logo.png',
+        },
+        {
+            id: 2,
+            title: 'Suppliers',
+            description: '',
+            imageUrl: '/storage/logo.png',
+        },
+        {
+            id: 3,
+            title: 'Products',
+            description: '',
+            imageUrl: '/storage/logo.png',
+        },
+        {
+            id: 4,
+            title: 'Inventory',
+            description: '',
+            imageUrl: '/storage/logo.png',
+        },
+        {
+            id: 5,
+            title: 'Bills',
+            description: '',
+            imageUrl: '/storage/logo.png',
+        },
+    ];
+
     return (
-        <Card style={{ width: '18rem' }}>
-            <Card.Img variant="top" src="storage/logo.png" />
-            <Card.Body>
-                <Card.Title>Card Title</Card.Title>
-                <Card.Text>
-                    Some quick example text to build on the card title and make up the
-                    bulk of the card's content.
-                </Card.Text>
-                <Button variant="primary">Primary</Button>{' '}
-            </Card.Body>
-        </Card>
+        <Row xs={1} md={2} lg={2} className="g-4">
+            {modules.map((module) => (
+                <Col key={module.id}>
+                    <Card>
+                        <Card.Img variant="top" src={module.imageUrl} />
+                        <Card.Body>
+                            <Card.Title className="text-center">{module.title}</Card.Title>
+                            <Card.Text>{module.description}</Card.Text>
+                            <div className="d-flex justify-content-center">
+                                <Button variant="primary">Ver Detalles</Button>
+                            </div>
+                        </Card.Body>
+                    </Card>
+                </Col>
+            ))}
+        </Row>
     );
 }
 
