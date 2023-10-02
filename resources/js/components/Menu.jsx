@@ -30,12 +30,6 @@ export default function Menu() {
         },
         {
             id: 4,
-            title: 'Inventory',
-            description: '',
-            imageUrl: '/storage/logo.png',
-        },
-        {
-            id: 5,
             title: 'Bills',
             description: '',
             imageUrl: '/storage/logo.png',
@@ -47,14 +41,18 @@ export default function Menu() {
             {modules.map((module) => (
                 <Col key={module.id}>
                     <Card>
-                        <Card.Img variant="top" src={module.imageUrl} />
-                        <Card.Body>
-                            <Card.Title className="text-center">{module.title}</Card.Title>
-                            <Card.Text>{module.description}</Card.Text>
-                            <div className="d-flex justify-content-center">
-                                <Button variant="primary">Ver Detalles</Button>
+                        <div className="colorbg1">
+                            <div className="marco">
+                                <Card.Img variant="top" src={module.imageUrl} />
+                                <Card.Body>
+                                    <Card.Title className="text-center">{module.title}</Card.Title>
+                                    <Card.Text>{module.description}</Card.Text>
+                                    <div className="d-flex justify-content-center">
+                                        <Button variant="primary" className="btn-custom">Ver Detalles</Button>
+                                    </div>
+                                </Card.Body>
                             </div>
-                        </Card.Body>
+                        </div>
                     </Card>
                 </Col>
             ))}

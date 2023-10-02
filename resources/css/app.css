@@ -14,11 +14,52 @@
 }
 
 .colorbg2 {
-    background-color: #74CDFF;
+    background-color: #74cdff;
+}
+
+.marco {
+    background-color: #74cdff;
+    border: 20px solid #ffeada;
+    border-radius: 15px;
+    padding: 10px;
+    margin: 10px;
+    transition: border-color 0.3s ease-in-out;
+    /* Agregamos una transición suave para el cambio de color del borde */
+}
+
+.btn-primary.btn-custom {
+    background-color: #ffeada;
+    /* Color de fondo del botón normal */
+    border-color: #e4f0ff;
+    /* Color del borde del botón normal */
+    color: #000;
+    /* Color del texto del botón normal */
+}
+
+
+/* Estilo del botón al pasar el ratón por encima (hover) */
+
+.btn-primary.btn-custom:hover {
+    background-color: #ddf9e4;
+    /* Color de fondo del botón al hacer hover */
+    border-color: #e4f0ff;
+    /* Color del borde del botón al hacer hover */
+    color: #000;
+    /* Color del texto del botón al hacer hover */
+}
+
+.marco:hover {
+    border-color: #ffc145;
+    /* Cambia el color del borde cuando el ratón está sobre la tarjeta */
+}
+
+.card {
+    border: none !important;
+    /* Quita el borde de todas las tarjetas */
 }
 
 .btnbg {
-    background-color: #FFC145;
+    background-color: #ffc145;
 }
 
 .offa {
@@ -27,9 +68,9 @@
 }
 
 .offa:hover {
-    background-color: #FFC145;
+    background-color: #ffc145;
 }
 
 .drpdown {
-    background-color: #E4F0FF;
+    background-color: #e4f0ff;
 }
