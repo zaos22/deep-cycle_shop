@@ -20,11 +20,11 @@ export default function Users() {
     return (
         <div>
             <div>
-
-                <button type="button" className="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                    Create User
-                </button>
-
+                <div className="mb-3 d-flex justify-content-end">
+                    <button type="button" className="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                        Create User
+                    </button>
+                </div>
                 <div className="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                     <div className="modal-dialog">
                         <div className="modal-content">
@@ -44,29 +44,57 @@ export default function Users() {
                 </div>
 
             </div>
-
-            <table className="table table-hover">
-                <thead className="custom-thead text-center">
-                    <tr>
-                        <th scope="col">Name</th>
-                        <th scope="col">Lastname</th>
-                        <th scope="col">ID</th>
-                        <th scope="col">Phone</th>
-                        <th scope="col">Email</th>
-                        <th scope="col">Role</th>
-                        <th scope="col">Discharge date</th>
+            <table className="table-auto table-hover w-full shadow-lg rounded-lg">
+                <thead>
+                    <tr className="colorbg shadow-lg rounded-lg text-black">
+                        <th className="px-6 py-3 uppercase">
+                            Name
+                        </th>
+                        <th className="px-6 py-3 uppercase">
+                            Lastname
+                        </th>
+                        <th className="px-6 py-3 uppercase">
+                            ID
+                        </th>
+                        <th className="px-6 py-3 uppercase">
+                            Phone
+                        </th>
+                        <th className="px-6 py-3 uppercase">
+                            Email
+                        </th>
+                        <th className="px-6 py-3 uppercase">
+                            Role
+                        </th>
+                        <th className="px-6 py-3 uppercase">
+                            Discharge date
+                        </th>
+                        <th className="px-6 py-3 uppercase"></th>
                     </tr>
                 </thead>
                 <tbody className="custom-tbody text-center">
                     {users.map((user) => (
-                        <tr key={user.id}>
+                        <tr key={user.id} className="headerbg1">
                             <td>{user.name}</td>
                             <td>{user.lastname}</td>
                             <td>{user.DNI}</td>
                             <td>{user.phone}</td>
                             <td>{user.email}</td>
                             <td>{user.role}</td>
-                            <td>{user.created_at.substring(0, 10)}</td>
+                            <td>{user.created_at == null ? 'Pending' : user.created_at.substring(0, 10)}</td>
+                            <td>
+                                <div className="d-flex justify-content-between">
+                                    <div className="pe-2">
+                                        <button type="button" className="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                            <i class="fa-solid fa-pen-to-square"></i>
+                                        </button>
+                                    </div>
+                                    <div className="pe-2">
+                                        <button type="button" className="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                            <i class="fa-solid fa-trash"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </td>
                         </tr>
                     ))}
                 </tbody>
