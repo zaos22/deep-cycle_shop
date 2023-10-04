@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -23,8 +24,17 @@ Route::get('/', function () {
 // });
 
 Route::get('/dashboard', function () {
-    return view('dashboard');
+    return view('admin.dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
+
+Route::get('/users', function () {
+    return view('admin.users');
+})->middleware(['auth', 'verified'])->name('users');
+
+Route::get('/users-data', [UserController::class, 'allUsers'])->name('users-data');
+Route::post('/new-user', [UserController::class, 'store'])->name('new-user');
+Route::put('/edit-user/{idUser}', [UserController::class, 'update'])->name('edit-user');
+Route::delete('/delete-user/{idUser}', [UserController::class, 'destroy'])->name('delete-user');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

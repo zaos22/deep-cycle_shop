@@ -5,6 +5,16 @@
     background-color: #ffeada;
 }
 
+.custom-thead {
+    background-color: #FF5733;
+    color: white;
+}
+
+.custom-tbody {
+    background-color: #EDEDED;
+    color: #333;
+}
+
 .headerbg {
     background-color: #e4f0ff;
 }

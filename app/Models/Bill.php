@@ -10,6 +10,7 @@ class Bill extends Model
     protected $fillable = [
         'total',
         'user_id',
+        'suppliers_id'
     ];
 
 }

@@ -12,6 +12,7 @@ class Bill_lines extends Model
         'product_id',
         'user_id',
         'bill_id',
+        'material_id'
     ];
 
 }

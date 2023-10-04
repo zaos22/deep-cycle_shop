@@ -13,26 +13,30 @@ export default function Menu() {
         {
             id: 1,
             title: 'Users',
+            url: '/users',
             description: '',
-            imageUrl: '/storage/logo.png',
+            imageUrl: '/storage/users.png',
         },
         {
             id: 2,
             title: 'Suppliers',
+            url: '/suppliers',
             description: '',
-            imageUrl: '/storage/logo.png',
+            imageUrl: '/storage/suppliers.png',
         },
         {
             id: 3,
             title: 'Products',
+            url: '/products',
             description: '',
-            imageUrl: '/storage/logo.png',
+            imageUrl: '/storage/products.png',
         },
         {
             id: 4,
             title: 'Bills',
+            url: '/bills',
             description: '',
-            imageUrl: '/storage/logo.png',
+            imageUrl: '/storage/bills.png',
         },
     ];
 
@@ -43,12 +47,14 @@ export default function Menu() {
                     <Card>
                         <div className="colorbg1">
                             <div className="marco">
-                                <Card.Img variant="top" src={module.imageUrl} />
+                                <div style={{ display: "flex", justifyContent: "center" }}>
+                                    <Card.Img variant="top" src={module.imageUrl} style={{ width: '50%' }} />
+                                </div>
                                 <Card.Body>
-                                    <Card.Title className="text-center">{module.title}</Card.Title>
+                                    <Card.Title className=""></Card.Title>
                                     <Card.Text>{module.description}</Card.Text>
                                     <div className="d-flex justify-content-center">
-                                        <Button variant="primary" className="btn-custom">Ver Detalles</Button>
+                                        <Button variant="primary" href={module.url} className="btn-custom text-center text-uppercase fw-bold">{module.title}</Button>
                                     </div>
                                 </Card.Body>
                             </div>
