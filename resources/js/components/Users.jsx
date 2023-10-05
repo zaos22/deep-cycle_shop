@@ -1,9 +1,11 @@
 import react from "react";
+import Swal from 'sweetalert2'
 import axios from "axios";
 import { createRoot } from "react-dom/client";
 import { useEffect, useState } from "react";
 
 const usersAPI = 'http://localhost/users-data'
+const delUser = 'http://localhost/delete-user'
 
 export default function Users() {
     const [users, setUsers] = useState([])
@@ -15,6 +17,24 @@ export default function Users() {
     const getUsers = async () => {
         const res = await axios.get(usersAPI)
         setUsers(res.data)
+    }
+
+    const delUsers = (id) => {
+        Swal.fire({
+            title: 'Are you sure you want to delete the user?',
+            showDenyButton: true,
+            confirmButtonText: 'Confirm',
+            denyButtonText: `Cancel`,
+        }).then(async (result) => {
+            /* Read more about isConfirmed, isDenied below */
+            if (result.isConfirmed) {
+                Swal.fire('Deleted!', '', 'success')
+                const res = await axios.delete(delUser + '/' + id)
+                getUsers()
+            } else if (result.isDenied) {
+                Swal.fire('The user is safe', '', 'info')
+            }
+        })
     }
 
     return (
@@ -85,12 +105,12 @@ export default function Users() {
                                 <div className="d-flex justify-content-between">
                                     <div className="pe-2">
                                         <button type="button" className="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                                            <i class="fa-solid fa-pen-to-square"></i>
+                                            <i className="fa-solid fa-pen-to-square"></i>
                                         </button>
                                     </div>
                                     <div className="pe-2">
-                                        <button type="button" className="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                                            <i class="fa-solid fa-trash"></i>
+                                        <button onClick={() => delUsers(user.id)} type="button" className="btn btn-danger">
+                                            <i className="fa-solid fa-trash"></i>
                                         </button>
                                     </div>
                                 </div>
