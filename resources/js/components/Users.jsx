@@ -6,9 +6,18 @@ import { useEffect, useState } from "react";
 
 const usersAPI = 'http://localhost/users-data'
 const delUser = 'http://localhost/delete-user'
+const storeUsers = 'http://localhost/new-user'
 
 export default function Users() {
     const [users, setUsers] = useState([])
+
+    const [name, setName] = useState('')
+    const [lastname, setLastname] = useState('')
+    const [dni, setDni] = useState('')
+    const [phone, setPhone] = useState(0)
+    const [email, setEmail] = useState('')
+    const [role, setRole] = useState('')
+    const [passw, setPassw] = useState('')
 
     useEffect(() => {
         getUsers()
@@ -17,6 +26,20 @@ export default function Users() {
     const getUsers = async () => {
         const res = await axios.get(usersAPI)
         setUsers(res.data)
+    }
+
+    const storeUser = async (e) => {
+        e.preventDefault()
+        await axios.post(storeUsers, {
+            name: name,
+            lastname: lastname,
+            DNI: dni,
+            phone: phone,
+            email: email,
+            role: role,
+            passw: passw
+        })
+        getUsers()
     }
 
     const delUsers = (id) => {
@@ -53,7 +76,50 @@ export default function Users() {
                                 <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <div className="modal-body">
-                                ...
+                                <form>
+                                    <div className="d-flex justify-content-between">
+                                        <div className="mb-3">
+                                            <label for="name" className="form-label">Name</label>
+                                            <input type="text" autocomplete="off" className="form-control" id="name" aria-describedby="name" />
+                                        </div>
+                                        <div className="mb-3">
+                                            <label for="lastname" className="form-label">Lastname</label>
+                                            <input type="text" autocomplete="off" className="form-control" id="lastname" />
+                                        </div>
+                                    </div>
+                                    <div className="d-flex justify-content-between">
+                                        <div className="mb-3">
+                                            <label for="dni" className="form-label">DNI</label>
+                                            <input type="text" autocomplete="off" className="form-control" id="dni" />
+                                        </div>
+                                        <div className="mb-3">
+                                            <label for="phone" className="form-label">Phone</label>
+                                            <input type="text" autocomplete="off" className="form-control" id="phone" />
+                                        </div>
+                                    </div>
+                                    <div className="d-flex justify-content-between">
+                                        <div className="mb-3">
+                                            <label for="email" className="form-label">Email</label>
+                                            <input type="email" autocomplete="off" className="form-control" id="email" />
+                                        </div>
+                                        <div className="mb-3">
+                                            <label for="passw" className="form-label">Password</label>
+                                            <input type="password" autocomplete="off" className="form-control" id="passw" />
+                                        </div>
+                                    </div>
+                                    <div class="form-check">
+                                        <input className="form-check-input" type="radio" autocomplete="off" name="flexRadioDefault" id="flexRadioDefault1" value={'admin'} />
+                                        <label className="form-check-label" for="flexRadioDefault1">
+                                            Admin
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input className="form-check-input" autocomplete="off" type="radio" name="flexRadioDefault" id="flexRadioDefault2" value={'client'} checked />
+                                        <label className="form-check-label" for="flexRadioDefault2">
+                                            Client
+                                        </label>
+                                    </div>
+                                </form>
                             </div>
                             <div className="modal-footer">
                                 <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
