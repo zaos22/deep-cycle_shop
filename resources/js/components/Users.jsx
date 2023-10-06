@@ -10,6 +10,7 @@ const storeUsers = 'http://localhost/new-user'
 
 export default function Users() {
     const [users, setUsers] = useState([])
+    const [isModalOpen, setIsModalOpen] = useState(false); // Nuevo estado para controlar la visibilidad del modal
 
     const [name, setName] = useState('')
     const [lastname, setLastname] = useState('')
@@ -29,7 +30,7 @@ export default function Users() {
     }
 
     const storeUser = async (e) => {
-        e.preventDefault()
+        e.preventDefault();
         await axios.post(storeUsers, {
             name: name,
             lastname: lastname,
@@ -37,10 +38,19 @@ export default function Users() {
             phone: phone,
             email: email,
             role: role,
-            passw: passw
-        })
-        getUsers()
-    }
+            password: passw
+        });
+        getUsers();
+        Swal.fire('Created!', '', 'success')
+        setIsModalOpen(false);
+        setName('');
+        setLastname('');
+        setDni('');
+        setPhone(0);
+        setEmail('');
+        setRole('');
+        setPassw('');
+    };
 
     const delUsers = (id) => {
         Swal.fire({
@@ -68,66 +78,83 @@ export default function Users() {
                         Create User
                     </button>
                 </div>
-                <div className="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div className="modal fade" id="exampleModal" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden={!isModalOpen}>
                     <div className="modal-dialog">
                         <div className="modal-content">
                             <div className="modal-header">
-                                <h5 className="modal-title" id="exampleModalLabel">New User</h5>
+                                <h3 className="modal-title" id="exampleModalLabel">New User</h3>
                                 <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <div className="modal-body">
-                                <form>
+                                <form onSubmit={storeUser}>
                                     <div className="d-flex justify-content-between">
                                         <div className="mb-3">
-                                            <label for="name" className="form-label">Name</label>
-                                            <input type="text" autocomplete="off" className="form-control" id="name" aria-describedby="name" />
+                                            <label htmlFor="name" className="form-label">Name</label>
+                                            <input type="text" autoComplete="off" className="form-control" id="name" aria-describedby="name"
+                                                value={name}
+                                                onChange={(e) => setName(e.target.value)} />
                                         </div>
                                         <div className="mb-3">
-                                            <label for="lastname" className="form-label">Lastname</label>
-                                            <input type="text" autocomplete="off" className="form-control" id="lastname" />
+                                            <label htmlFor="lastname" className="form-label">Lastname</label>
+                                            <input type="text" autoComplete="off" className="form-control" id="lastname"
+                                                value={lastname}
+                                                onChange={(e) => setLastname(e.target.value)} />
                                         </div>
                                     </div>
                                     <div className="d-flex justify-content-between">
                                         <div className="mb-3">
-                                            <label for="dni" className="form-label">DNI</label>
-                                            <input type="text" autocomplete="off" className="form-control" id="dni" />
+                                            <label htmlFor="dni" className="form-label">DNI</label>
+                                            <input type="text" autoComplete="off" className="form-control" id="dni"
+                                                value={dni}
+                                                onChange={(e) => setDni(e.target.value)} />
                                         </div>
                                         <div className="mb-3">
-                                            <label for="phone" className="form-label">Phone</label>
-                                            <input type="text" autocomplete="off" className="form-control" id="phone" />
+                                            <label htmlFor="phone" className="form-label">Phone</label>
+                                            <input type="number" autoComplete="off" className="form-control" id="phone"
+                                                value={phone}
+                                                onChange={(e) => setPhone(e.target.value)} />
                                         </div>
                                     </div>
                                     <div className="d-flex justify-content-between">
                                         <div className="mb-3">
-                                            <label for="email" className="form-label">Email</label>
-                                            <input type="email" autocomplete="off" className="form-control" id="email" />
+                                            <label htmlFor="email" className="form-label">Email</label>
+                                            <input type="email" autoComplete="off" className="form-control" required id="email"
+                                                value={email}
+                                                onChange={(e) => setEmail(e.target.value)} />
                                         </div>
                                         <div className="mb-3">
-                                            <label for="passw" className="form-label">Password</label>
-                                            <input type="password" autocomplete="off" className="form-control" id="passw" />
+                                            <label htmlFor="passw" className="form-label">Password</label>
+                                            <input type="password" autoComplete="off" className="form-control" required id="passw"
+                                                value={passw}
+                                                onChange={(e) => setPassw(e.target.value)} />
                                         </div>
                                     </div>
-                                    <div class="form-check">
-                                        <input className="form-check-input" type="radio" autocomplete="off" name="flexRadioDefault" id="flexRadioDefault1" value={'admin'} />
-                                        <label className="form-check-label" for="flexRadioDefault1">
+                                    <div className="form-check">
+                                        <input className="form-check-input" type="radio" autoComplete="off" name="flexRadioDefault" id="flexRadioDefault1"
+                                            value={role}
+                                            onChange={(e) => setRole(e.target.value = 'admin')} />
+                                        <label className="form-check-label" htmlFor="flexRadioDefault1">
                                             Admin
                                         </label>
                                     </div>
-                                    <div class="form-check">
-                                        <input className="form-check-input" autocomplete="off" type="radio" name="flexRadioDefault" id="flexRadioDefault2" value={'client'} checked />
-                                        <label className="form-check-label" for="flexRadioDefault2">
+                                    <div className="form-check">
+                                        <input className="form-check-input" autoComplete="off" type="radio" name="flexRadioDefault" id="flexRadioDefault2"
+                                            value={role}
+                                            onChange={(e) => setRole(e.target.value = 'client')} />
+                                        <label className="form-check-label" htmlFor="flexRadioDefault2">
                                             Client
                                         </label>
                                     </div>
+                                    <div className="modal-footer">
+                                        <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                        <button type="submit" className="btn btn-primary">Save changes</button>
+                                    </div>
                                 </form>
-                            </div>
-                            <div className="modal-footer">
-                                <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                <button type="button" className="btn btn-primary">Save changes</button>
                             </div>
                         </div>
                     </div>
                 </div>
+
 
             </div>
             <table className="table-auto table-hover w-full shadow-lg rounded-lg">
