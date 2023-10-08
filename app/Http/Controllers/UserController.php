@@ -10,7 +10,8 @@ use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
-    public function index(User $user){
+    public function index(User $user)
+    {
         $user = User::all();
         $data = $user;
         return json_encode($data);
@@ -28,7 +29,7 @@ class UserController extends Controller
             'lastname' => ['required', 'string', 'max:255'],
             'DNI' => ['required', 'string', 'max:255'],
             'phone' => ['required', 'integer'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:'.User::class],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:' . User::class],
             'role' => ['required', 'string', 'max:255'],
             'password' => ['required']
         ]);
@@ -48,17 +49,31 @@ class UserController extends Controller
     {
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'max:255', 'unique:users,email,'.$idUser->id],
-            'password' => ['min:4', 'max:30'],
-            'role' => ['string', 'max:255'],
+            'lastname' => ['required', 'string', 'max:255'],
+            'DNI' => ['required', 'string', 'max:255'],
+            'phone' => ['required', 'integer'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users,email,' . $idUser->id],
+            'role' => ['required', 'string', 'max:255'],
+            'password' => ['nullable', 'string', 'min:6'], // Validación para la nueva contraseña
         ]);
 
-        $idUser->update([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-            'role' => $request->role,
-        ]);
+        $user = User::find($idUser->id);
+
+        if ($user) {
+            $user->name = $request->name;
+            $user->lastname = $request->lastname;
+            $user->DNI = $request->DNI;
+            $user->phone = $request->phone;
+            $user->email = $request->email;
+            $user->role = $request->role;
+
+            // Verifica si se proporciona una nueva contraseña
+            if ($request->has('password') && $request->password != null) {
+                $user->password = Hash::make($request->password);
+            }
+
+            $user->save();
+        }
     }
 
     public function destroy(User $idUser)
