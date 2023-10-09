@@ -1,6 +1,7 @@
 import react from "react";
 import Button from 'react-bootstrap/Button';
 import Swal from 'sweetalert2'
+import Materials from './Materials/Materials';
 import Create from "./Create";
 import Delete from "./Delete";
 import Update from "./Update";
@@ -69,7 +70,7 @@ export default function Suppliers() {
                             <td>{supplier.agent_lastname}</td>
                             <td>{supplier.phone}</td>
                             <td>{supplier.email}</td>
-                            <td>{supplier.type}</td>
+                            <td><Materials idSupplier={supplier.id}></Materials></td>
                             <td>{supplier.ubication}</td>
                             <td>
                                 <div className="d-flex justify-content-between">

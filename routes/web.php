@@ -3,6 +3,7 @@
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\SupplierController;
+use App\Http\Controllers\MaterialController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -46,6 +47,9 @@ Route::post('/new-supplier', [SupplierController::class, 'store'])->name('new-su
 Route::put('/edit-supplier/{idSupplier}/{idMaterial}', [SupplierController::class, 'update'])->name('edit-supplier');
 Route::delete('/delete-supplier/{idSupplier}', [SupplierController::class, 'destroy'])->name('delete-supplier');
 
+Route::get('/materials-data/{idSupplier}', [MaterialController::class, 'allMaterials'])->name('suppliers-data');
+Route::put('/edit-material/{idMaterial}', [MaterialController::class, 'update'])->name('edit-material');
+Route::delete('/delete-material/{idMaterial}', [MaterialController::class, 'destroy'])->name('delete-material');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
