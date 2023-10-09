@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\SupplierController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -35,6 +36,16 @@ Route::get('/users-data', [UserController::class, 'allUsers'])->name('users-data
 Route::post('/new-user', [UserController::class, 'store'])->name('new-user');
 Route::put('/edit-user/{idUser}', [UserController::class, 'update'])->name('edit-user');
 Route::delete('/delete-user/{idUser}', [UserController::class, 'destroy'])->name('delete-user');
+
+Route::get('/suppliers', function () {
+    return view('admin.suppliers');
+})->middleware(['auth', 'verified'])->name('suppliers');
+
+Route::get('/suppliers-data', [SupplierController::class, 'allSuppliers'])->name('suppliers-data');
+Route::post('/new-supplier', [SupplierController::class, 'store'])->name('new-supplier');
+Route::put('/edit-supplier/{idSupplier}/{idMaterial}', [SupplierController::class, 'update'])->name('edit-supplier');
+Route::delete('/delete-supplier/{idSupplier}', [SupplierController::class, 'destroy'])->name('delete-supplier');
+
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

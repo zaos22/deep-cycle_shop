@@ -2,65 +2,100 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreSupplierRequest;
-use App\Http\Requests\UpdateSupplierRequest;
+use App\Models\Material;
+use Illuminate\Support\Facades\DB;
 use App\Models\Supplier;
+use App\Models\User;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class SupplierController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    public function index(Supplier $supplier)
     {
-        //
+        $supplier = Supplier::all();
+        $data = $supplier;
+        return json_encode($data);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    public function allSuppliers()
     {
-        //
+        $data = DB::table('materials')
+            ->select(
+                'suppliers.id',
+                'suppliers.company',
+                'suppliers.agent_name',
+                'suppliers.agent_lastname',
+                'suppliers.phone',
+                'suppliers.email',
+                'suppliers.ubication',
+                'materials.id as material',
+                'materials.type',
+                'materials.price',
+                'materials.suppliers_id'
+            )
+            ->join('suppliers', 'materials.suppliers_id', '=', 'suppliers.id')->get();
+
+        return response()->json($data);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(StoreSupplierRequest $request)
+    public function store(Request $request)
     {
-        //
+        $request->validate([
+            'company' => ['required', 'string', 'max:255'],
+            'agent_name' => ['required', 'string', 'max:255'],
+            'agent_lastname' => ['required', 'string', 'max:255'],
+            'phone' => ['required', 'integer'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:' . Supplier::class],
+            'ubication' => ['required', 'string', 'max:255'],
+        ]);
+
+        $supplier = Supplier::create([
+            'company' => $request->company,
+            'agent_name' => $request->agent_name,
+            'agent_lastname' => $request->agent_lastname,
+            'phone' => $request->phone,
+            'email' => $request->email,
+            'ubication' => $request->ubication,
+        ]);
+
+        $material = Material::create([
+            'type' => $request->type,
+            'price' => $request->price,
+            'suppliers_id' => $supplier->id,
+        ]);
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Supplier $supplier)
+    public function update(Request $request, Supplier $idSupplier, Material $idMaterial)
     {
-        //
+        $request->validate([
+            'company' => ['required', 'string', 'max:255'],
+            'agent_name' => ['required', 'string', 'max:255'],
+            'agent_lastname' => ['required', 'string', 'max:255'],
+            'phone' => ['required', 'integer'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users,email,'.$idSupplier->id],
+            'ubication' => ['required', 'string', 'max:255'],
+        ]);
+
+        $idSupplier->update([
+            'company' => $request->company,
+            'agent_name' => $request->agent_name,
+            'agent_lastname' => $request->agent_lastname,
+            'phone' => $request->phone,
+            'email' => $request->email,
+            'ubication' => $request->ubication,
+        ]);
+
+        $idMaterial->update([
+            'type' => $request->type,
+            'price' => $request->price,
+            'suppliers_id' => $request->suppliers_id,
+        ]);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Supplier $supplier)
+    public function destroy(Supplier $idSupplier)
     {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(UpdateSupplierRequest $request, Supplier $supplier)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Supplier $supplier)
-    {
-        //
+        // Eliminar el proveedor
+        $idSupplier->delete();
     }
 }

@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('bills', function (Blueprint $table) {
             $table->id();
             $table->double('total');
-            $table->foreignId('user_id')->references('id')->on('users');
-            $table->foreignId('suppliers_id')->references('id')->on('suppliers');
+            $table->foreignId('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreignId('suppliers_id')->references('id')->on('suppliers')->onDelete('cascade');
             $table->timestamps();
         });
     }

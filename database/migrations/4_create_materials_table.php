@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('type');
             $table->double('price');
-            $table->foreignId('suppliers_id')->references('id')->on('suppliers');
+            $table->foreignId('suppliers_id')->references('id')->on('suppliers')->onDelete('cascade');
             $table->timestamps();
         });
     }

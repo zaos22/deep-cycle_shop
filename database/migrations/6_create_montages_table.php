@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('montages', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('material_id')->references('id')->on('materials');
-            $table->foreignId('user_id')->references('id')->on('users');
+            $table->foreignId('material_id')->references('id')->on('materials')->onDelete('cascade');
+            $table->foreignId('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
         });
     }
