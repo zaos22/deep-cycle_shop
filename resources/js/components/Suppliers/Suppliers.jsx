@@ -18,19 +18,14 @@ export default function Suppliers() {
         getSuppliers();
     };
 
-    const onKeyDown = (e) => {
-        if (e.keyCode === 8) {
-            getSuppliers(); // Obtiene todos los proveedores
-        }
-    }
-
     useEffect(() => {
         getSuppliers()
     }, [])
 
-    const getSuppliers = async () => {
+    const getSuppliers = async (searchTerm) => {
         try {
-            const response = await axios.get(`/suppliers-data?search=${search}`);
+            // Si searchTerm es null, obtiene todos los proveedores
+            const response = await axios.get(`/suppliers-data?search=${searchTerm || ''}`);
             setSuppliers(response.data);
         } catch (error) {
             console.error('Error al obtener proveedores:', error);
@@ -41,10 +36,9 @@ export default function Suppliers() {
         const searchTerm = event.target.value;
         setSearch(searchTerm);
 
-        // Llama a la función para obtener proveedores solo si hay un término de búsqueda
-        if (searchTerm !== '') {
-            getSuppliers();
-        }
+        // Llama a la función para obtener proveedores
+        // Si el campo de búsqueda está vacío, no se especifica un término de búsqueda
+        getSuppliers(searchTerm === '' ? null : searchTerm);
     };
 
 
@@ -53,12 +47,11 @@ export default function Suppliers() {
             <div className="d-flex justify-content-between">
                 <div className="mb-3 d-flex justify-content-start">
                     <input
-                    className="transparent-input"
+                        className="transparent-input"
                         type="text"
                         placeholder="Search"
                         value={search}
                         onChange={handleSearchChange}
-                        onKeyDown={onKeyDown}
                     />
                 </div>
                 <div className="mb-3 d-flex justify-content-end">
