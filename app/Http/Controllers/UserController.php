@@ -17,9 +17,25 @@ class UserController extends Controller
         return json_encode($data);
     }
 
-    public function allUsers()
+    public function allUsers(Request $request)
     {
-        return User::all();
+        // Crear una consulta para obtener todos los usuarios
+        $query = User::query();
+
+        // Obtén los parámetros de búsqueda del Request
+        $search = $request->input('search');
+
+        // Aplica filtros de búsqueda si se proporcionan
+        if (!empty($search)) {
+            $query->where('DNI', 'like', '%' . $search . '%')
+                ->orWhere('email', 'like', '%' . $search . '%');
+        }
+
+        // Ejecuta la consulta y obtén los resultados
+        $data = $query->get();
+
+        // Devuelve los resultados de la consulta en formato JSON como respuesta
+        return response()->json($data);
     }
 
     public function store(Request $request)

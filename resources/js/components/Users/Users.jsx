@@ -8,11 +8,10 @@ import axios from "axios";
 import { createRoot } from "react-dom/client";
 import { useEffect, useState } from "react";
 
-const usersAPI = 'http://localhost/users-data'
-
 
 export default function Users() {
-    const [users, setUsers] = useState([])
+    const [users, setUsers] = useState([]);
+    const [search, setSearch] = useState("");
 
     const updateUserList = () => {
         getUsers();
@@ -22,16 +21,41 @@ export default function Users() {
         getUsers()
     }, [])
 
-    const getUsers = async () => {
-        const res = await axios.get(usersAPI)
-        setUsers(res.data)
+    const getUsers = async (searchTerm) => {
+        try {
+            const res = await axios.get(`/users-data?search=${searchTerm || ''}`)
+            setUsers(res.data)
+        } catch (error) {
+            console.error('Error al obtener usuarios:', error);
+        }
     }
+
+    const handleSearchChange = (event) => {
+        const searchTerm = event.target.value;
+        setSearch(searchTerm);
+
+        // Llama a la función para obtener proveedores
+        // Si el campo de búsqueda está vacío, no se especifica un término de búsqueda
+        getUsers(searchTerm === '' ? null : searchTerm);
+    };
 
     return (
         <div>
             <div>
-                <div className="mb-3 d-flex justify-content-end">
-                    <Create updateUserList={updateUserList}></Create>
+                <div className="d-flex justify-content-between">
+                    <div className="mb-3 d-flex justify-content-start">
+                        <input
+                            id="search"
+                            className="transparent-input"
+                            type="text"
+                            placeholder="Search"
+                            value={search}
+                            onChange={handleSearchChange}
+                        />
+                    </div>
+                    <div className="mb-3 d-flex justify-content-end">
+                        <Create updateUserList={updateUserList}></Create>
+                    </div>
                 </div>
             </div>
             <table className="table-auto table-hover w-full shadow-lg rounded-lg">

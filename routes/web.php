@@ -33,7 +33,7 @@ Route::get('/users', function () {
     return view('admin.users');
 })->middleware(['auth', 'verified'])->name('users');
 
-Route::get('/users-data', [UserController::class, 'allUsers'])->name('users-data');
+Route::get('/users-data/{search?}', [UserController::class, 'allUsers'])->name('users-data');
 Route::post('/new-user', [UserController::class, 'store'])->name('new-user');
 Route::put('/edit-user/{idUser}', [UserController::class, 'update'])->name('edit-user');
 Route::delete('/delete-user/{idUser}', [UserController::class, 'destroy'])->name('delete-user');

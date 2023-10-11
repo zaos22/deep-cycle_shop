@@ -47,6 +47,7 @@ export default function Suppliers() {
             <div className="d-flex justify-content-between">
                 <div className="mb-3 d-flex justify-content-start">
                     <input
+                        id="search"
                         className="transparent-input"
                         type="text"
                         placeholder="Search"
