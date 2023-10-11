@@ -19,6 +19,16 @@ class MaterialController extends Controller
         return $materials;
     }
 
+    public function store(Request $request)
+    {
+
+        Material::create([
+            'type' => $request->type,
+            'price' => $request->price,
+            'suppliers_id' => $request->suppliers_id
+        ]);
+    }
+
     public function update(Request $request, Material $idMaterial)
     {
 

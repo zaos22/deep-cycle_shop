@@ -9,28 +9,58 @@ import axios from "axios";
 import { createRoot } from "react-dom/client";
 import { useEffect, useState } from "react";
 
-const suppliersAPI = 'http://localhost/suppliers-data'
-
 
 export default function Suppliers() {
     const [suppliers, setSuppliers] = useState([])
+    const [search, setSearch] = useState("");
 
     const updateUserList = () => {
         getSuppliers();
     };
+
+    const onKeyDown = (e) => {
+        if (e.keyCode === 8) {
+            getSuppliers(); // Obtiene todos los proveedores
+        }
+    }
 
     useEffect(() => {
         getSuppliers()
     }, [])
 
     const getSuppliers = async () => {
-        const res = await axios.get(suppliersAPI)
-        setSuppliers(res.data)
-    }
+        try {
+            const response = await axios.get(`/suppliers-data?search=${search}`);
+            setSuppliers(response.data);
+        } catch (error) {
+            console.error('Error al obtener proveedores:', error);
+        }
+    };
+
+    const handleSearchChange = (event) => {
+        const searchTerm = event.target.value;
+        setSearch(searchTerm);
+
+        // Llama a la función para obtener proveedores solo si hay un término de búsqueda
+        if (searchTerm !== '') {
+            getSuppliers();
+        }
+    };
+
 
     return (
         <div>
-            <div>
+            <div className="d-flex justify-content-between">
+                <div className="mb-3 d-flex justify-content-start">
+                    <input
+                    className="transparent-input"
+                        type="text"
+                        placeholder="Search"
+                        value={search}
+                        onChange={handleSearchChange}
+                        onKeyDown={onKeyDown}
+                    />
+                </div>
                 <div className="mb-3 d-flex justify-content-end">
                     <Create updateUserList={updateUserList}></Create>
                 </div>

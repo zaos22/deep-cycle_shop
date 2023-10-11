@@ -11,16 +11,9 @@ use Illuminate\Support\Facades\Hash;
 
 class SupplierController extends Controller
 {
-    public function index(Supplier $supplier)
+    public function index()
     {
-        $supplier = Supplier::all();
-        $data = $supplier;
-        return json_encode($data);
-    }
-
-    public function allSuppliers()
-    {
-        $data = DB::table('materials')
+        $data = DB::table('suppliers')
             ->select(
                 'suppliers.id',
                 'suppliers.company',
@@ -28,14 +21,40 @@ class SupplierController extends Controller
                 'suppliers.agent_lastname',
                 'suppliers.phone',
                 'suppliers.email',
-                'suppliers.ubication',
-                'materials.id as material',
-                'materials.type',
-                'materials.price',
-                'materials.suppliers_id'
+                'suppliers.ubication'
             )
-            ->join('suppliers', 'materials.suppliers_id', '=', 'suppliers.id')->get();
+            ->leftJoin('materials', 'suppliers.id', '=', 'materials.suppliers_id')
+            ->selectRaw('materials.id as material, materials.type, materials.price');
+        return response()->json($data);
+    }
 
+    public function allSuppliers(Request $request)
+    {
+        $query = DB::table('suppliers')
+            ->select(
+                'suppliers.id',
+                'suppliers.company',
+                'suppliers.agent_name',
+                'suppliers.agent_lastname',
+                'suppliers.phone',
+                'suppliers.email',
+                'suppliers.ubication'
+            )
+            ->leftJoin('materials', 'suppliers.id', '=', 'materials.suppliers_id')
+            ->selectRaw('materials.id as material, materials.type, materials.price');
+
+        // Obtén los parámetros de búsqueda del Request
+        $search = $request->input('search');
+
+        // Aplica filtros de búsqueda si se proporcionan
+        if (!empty($search)) {
+            $query->where('suppliers.company', 'like', '%' . $search . '%')
+                ->orWhere('suppliers.email', 'like', '%' . $search . '%');
+        }
+        // Ejecuta la consulta y obtén los resultados
+        $data = $query->get();
+
+        // Devuelve los resultados de la consulta en formato JSON como respuesta
         return response()->json($data);
     }
 
@@ -73,7 +92,7 @@ class SupplierController extends Controller
             'agent_name' => ['required', 'string', 'max:255'],
             'agent_lastname' => ['required', 'string', 'max:255'],
             'phone' => ['required', 'integer'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users,email,'.$idSupplier->id],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users,email,' . $idSupplier->id],
             'ubication' => ['required', 'string', 'max:255'],
         ]);
 

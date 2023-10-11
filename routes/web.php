@@ -42,12 +42,13 @@ Route::get('/suppliers', function () {
     return view('admin.suppliers');
 })->middleware(['auth', 'verified'])->name('suppliers');
 
-Route::get('/suppliers-data', [SupplierController::class, 'allSuppliers'])->name('suppliers-data');
+Route::get('/suppliers-data/{search?}', [SupplierController::class, 'allSuppliers'])->name('suppliers-data');
 Route::post('/new-supplier', [SupplierController::class, 'store'])->name('new-supplier');
 Route::put('/edit-supplier/{idSupplier}/{idMaterial}', [SupplierController::class, 'update'])->name('edit-supplier');
 Route::delete('/delete-supplier/{idSupplier}', [SupplierController::class, 'destroy'])->name('delete-supplier');
 
 Route::get('/materials-data/{idSupplier}', [MaterialController::class, 'allMaterials'])->name('suppliers-data');
+Route::post('/new-material', [MaterialController::class, 'store'])->name('new-material');
 Route::put('/edit-material/{idMaterial}', [MaterialController::class, 'update'])->name('edit-material');
 Route::delete('/delete-material/{idMaterial}', [MaterialController::class, 'destroy'])->name('delete-material');
 
@@ -57,4 +58,4 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';

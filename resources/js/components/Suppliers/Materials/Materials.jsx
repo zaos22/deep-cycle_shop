@@ -3,6 +3,7 @@ import Button from 'react-bootstrap/Button';
 import Swal from 'sweetalert2'
 import axios from "axios";
 import ModalComponent from "../../ModalComponent";
+import Create from "./Create";
 import Update from './Update';
 import Delete from "./Delete";
 import { createRoot } from "react-dom/client";
@@ -11,7 +12,7 @@ import { useEffect, useState } from "react";
 const materialsAPI = 'http://localhost/materials-data'
 const delMaterial = 'http://localhost/delete-material'
 
-function Materials({idSupplier}) {
+function Materials({ idSupplier }) {
     const [materials, setMaterials] = useState([])
     const [showModal, setShowModal] = useState(false);
 
@@ -47,6 +48,7 @@ function Materials({idSupplier}) {
                 show={showModal}
                 onHide={handleCloseModal}
             >
+
                 <table className="table-auto table-hover w-full shadow-lg rounded-lg">
                     <thead>
                         <tr className="colorbg shadow-lg rounded-lg text-black">
@@ -56,7 +58,9 @@ function Materials({idSupplier}) {
                             <th className="px-6 py-3 uppercase">
                                 Price
                             </th>
-                            <th className="px-6 py-3 uppercase"></th>
+                            <th className="px-6 py-3 uppercase text-center">
+                                <Create updateUserList={updateUserList} idSupplier={idSupplier}></Create>
+                            </th>
                         </tr>
                     </thead>
                     <tbody className="custom-tbody text-center">

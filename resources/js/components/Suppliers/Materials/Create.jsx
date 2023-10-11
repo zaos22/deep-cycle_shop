@@ -4,7 +4,7 @@ import ModalComponent from "../../ModalComponent";
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 
-function Update({ updateUserList, data }) {
+function Create({ updateUserList, idSupplier }) {
     const [showModal, setShowModal] = useState(false);
 
     const handleShowModal = () => {
@@ -19,27 +19,28 @@ function Update({ updateUserList, data }) {
         setMtype(data.type);
         setMprice(data.price);
     };
-    const updateMaterials = 'http://localhost/edit-material'
+    const createMaterials = 'http://localhost/new-material'
 
     const [type, setMtype] = useState('')
     const [price, setMprice] = useState(0)
 
 
-    const updateMaterial = async (e) => {
+    const createMaterial = async (e) => {
         e.preventDefault();
-        await axios.put(updateMaterials + '/' + data.id, {
+        await axios.post(createMaterials, {
             type: type,
             price: price,
+            suppliers_id: idSupplier
         });
         handleCloseModal()
         updateUserList()
-        Swal.fire("Edited!", "", "success");
+        Swal.fire("Created!", "", "success");
     };
 
     return (
         <>
-            <Button variant="success" onClick={openEdit}>
-                <i className="fa-solid fa-pen-to-square"></i>
+            <Button variant="primary" onClick={openEdit}>
+                <i className="fa-solid fa-plus"></i>
             </Button>
 
             <ModalComponent
@@ -47,7 +48,7 @@ function Update({ updateUserList, data }) {
                 show={showModal}
                 onHide={handleCloseModal}
             >
-                <form onSubmit={updateMaterial}>
+                <form onSubmit={createMaterial}>
                     <div className="mb-3">
                         <label htmlFor="type" className="form-label">Material</label>
                         <input type="text" autoComplete="off" className="form-control" required id="type"
@@ -74,4 +75,4 @@ function Update({ updateUserList, data }) {
     );
 }
 
-export default Update;
+export default Create;

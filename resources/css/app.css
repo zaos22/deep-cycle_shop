@@ -56,6 +56,21 @@
     /* Color del texto del botón al hacer hover */
 }
 
+.transparent-input {
+    background: transparent;
+    /* Fondo transparente */
+    color: black;
+    /* Texto en negro */
+    border: none;
+    /* Borde eliminado */
+    outline: none;
+    /* Eliminar el resaltado de enfoque */
+    border-radius: 20%;
+    /* Hace que el input sea circular */
+    width: 100%;
+    /* Ancho completo del contenedor */
+}
+
 .marco:hover {
     border-color: #ffc145;
     /* Cambia el color del borde cuando el ratón está sobre la tarjeta */

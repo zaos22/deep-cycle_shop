@@ -51,7 +51,7 @@ function Create({ updateUserList }) {
     return (
         <>
             <Button variant="primary" onClick={handleShowModal}>
-                Create User
+                <i className="fa-solid fa-plus"></i>
             </Button>
 
             <ModalComponent
