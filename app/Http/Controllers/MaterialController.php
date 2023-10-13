@@ -11,13 +11,29 @@ use Illuminate\Http\Request;
 class MaterialController extends Controller
 {
 
-    public function allMaterials(Supplier $idSupplier)
+    public function allMaterials(Request $request, Supplier $idSupplier)
     {
         // Obtén todos los materiales relacionados con el proveedor $idSupplier
-        $materials = Material::where('suppliers_id', $idSupplier->id)->get();
+        $materials = Material::where('suppliers_id', $idSupplier->id);
 
-        return $materials;
+        // Obtén los parámetros de búsqueda del Request
+        $search = $request->input('search');
+
+        // Aplica filtros de búsqueda si se proporcionan
+        if (!empty($search)) {
+            $materials->where(function ($query) use ($search) {
+                $query->where('type', 'like', '%' . $search . '%')
+                      ->orWhere('price', 'like', '%' . $search . '%');
+            });
+        }
+
+        // Ejecuta la consulta y obtén los resultados
+        $data = $materials->get();
+
+        // Devuelve los resultados de la consulta en formato JSON como respuesta
+        return response()->json($data);
     }
+
 
     public function store(Request $request)
     {

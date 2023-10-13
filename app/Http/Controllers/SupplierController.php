@@ -39,24 +39,26 @@ class SupplierController extends Controller
                 'suppliers.phone',
                 'suppliers.email',
                 'suppliers.ubication'
-            )
-            ->leftJoin('materials', 'suppliers.id', '=', 'materials.suppliers_id')
-            ->selectRaw('materials.id as material, materials.type, materials.price');
+            );
 
         // Obtén los parámetros de búsqueda del Request
         $search = $request->input('search');
 
         // Aplica filtros de búsqueda si se proporcionan
         if (!empty($search)) {
-            $query->where('suppliers.company', 'like', '%' . $search . '%')
-                ->orWhere('suppliers.email', 'like', '%' . $search . '%');
+            $query->where(function ($query) use ($search) {
+                $query->where('suppliers.company', 'like', '%' . $search . '%')
+                    ->orWhere('suppliers.email', 'like', '%' . $search . '%');
+            });
         }
+
         // Ejecuta la consulta y obtén los resultados
         $data = $query->get();
 
         // Devuelve los resultados de la consulta en formato JSON como respuesta
         return response()->json($data);
     }
+
 
     public function store(Request $request)
     {
@@ -85,7 +87,7 @@ class SupplierController extends Controller
         ]);
     }
 
-    public function update(Request $request, Supplier $idSupplier, Material $idMaterial)
+    public function update(Request $request, Supplier $idSupplier)
     {
         $request->validate([
             'company' => ['required', 'string', 'max:255'],
@@ -103,12 +105,6 @@ class SupplierController extends Controller
             'phone' => $request->phone,
             'email' => $request->email,
             'ubication' => $request->ubication,
-        ]);
-
-        $idMaterial->update([
-            'type' => $request->type,
-            'price' => $request->price,
-            'suppliers_id' => $request->suppliers_id,
         ]);
     }
 

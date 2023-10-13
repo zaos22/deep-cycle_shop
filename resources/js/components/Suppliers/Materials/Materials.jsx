@@ -10,11 +10,11 @@ import { createRoot } from "react-dom/client";
 import { useEffect, useState } from "react";
 
 const materialsAPI = 'http://localhost/materials-data'
-const delMaterial = 'http://localhost/delete-material'
 
 function Materials({ idSupplier }) {
     const [materials, setMaterials] = useState([])
     const [showModal, setShowModal] = useState(false);
+    const [search, setSearch] = useState("");
 
     const handleShowModal = () => {
         setShowModal(true);
@@ -32,10 +32,19 @@ function Materials({ idSupplier }) {
         getMaterials()
     }, [])
 
-    const getMaterials = async () => {
-        const res = await axios.get(materialsAPI + '/' + idSupplier)
+    const getMaterials = async (searchTerm) => {
+        const res = await axios.get(materialsAPI + '/' + idSupplier + `?search=${searchTerm || ''}`)
         setMaterials(res.data)
     }
+
+    const handleSearchChange = (event) => {
+        const searchTerm = event.target.value;
+        setSearch(searchTerm);
+
+        // Llama a la función para obtener proveedores
+        // Si el campo de búsqueda está vacío, no se especifica un término de búsqueda
+        getMaterials(searchTerm === '' ? null : searchTerm);
+    };
 
     return (
         <div>
@@ -48,6 +57,16 @@ function Materials({ idSupplier }) {
                 show={showModal}
                 onHide={handleCloseModal}
             >
+                <div className="mb-3">
+                    <input
+                        id="search"
+                        className="transparent-input"
+                        type="text"
+                        placeholder="Search"
+                        value={search}
+                        onChange={handleSearchChange}
+                    />
+                </div>
 
                 <table className="table-auto table-hover w-full shadow-lg rounded-lg">
                     <thead>

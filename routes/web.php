@@ -44,13 +44,22 @@ Route::get('/suppliers', function () {
 
 Route::get('/suppliers-data/{search?}', [SupplierController::class, 'allSuppliers'])->name('suppliers-data');
 Route::post('/new-supplier', [SupplierController::class, 'store'])->name('new-supplier');
-Route::put('/edit-supplier/{idSupplier}/{idMaterial}', [SupplierController::class, 'update'])->name('edit-supplier');
+Route::put('/edit-supplier/{idSupplier}', [SupplierController::class, 'update'])->name('edit-supplier');
 Route::delete('/delete-supplier/{idSupplier}', [SupplierController::class, 'destroy'])->name('delete-supplier');
 
-Route::get('/materials-data/{idSupplier}', [MaterialController::class, 'allMaterials'])->name('suppliers-data');
+Route::get('/materials-data/{idSupplier}/{search?}', [MaterialController::class, 'allMaterials'])->name('materials-data');
 Route::post('/new-material', [MaterialController::class, 'store'])->name('new-material');
 Route::put('/edit-material/{idMaterial}', [MaterialController::class, 'update'])->name('edit-material');
 Route::delete('/delete-material/{idMaterial}', [MaterialController::class, 'destroy'])->name('delete-material');
+
+Route::get('/products', function () {
+    return view('admin.products');
+})->middleware(['auth', 'verified'])->name('products');
+
+Route::get('/products-data/{search?}', [SupplierController::class, 'allSuppliers'])->name('suppliers-data');
+Route::post('/new-product', [SupplierController::class, 'store'])->name('new-supplier');
+Route::put('/edit-product/{idProduct}/{idMaterial}', [SupplierController::class, 'update'])->name('edit-supplier');
+Route::delete('/delete-product/{idProducts}', [SupplierController::class, 'destroy'])->name('delete-supplier');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
