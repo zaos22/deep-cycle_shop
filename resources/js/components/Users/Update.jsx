@@ -134,7 +134,7 @@ function Update({ updateUserList, data }) {
                             <div>
                                 <input
                                     className="form-check-input"
-                                    type="checkbox"
+                                    type="radio"
                                     autoComplete="off"
                                     name="flexRadioDefault"
                                     id="flexRadioDefault1"
@@ -150,7 +150,7 @@ function Update({ updateUserList, data }) {
                     <div className="form-check">
                         {role !== 'client' && (
                             <div>
-                                <input className="form-check-input" autoComplete="off" type="checkbox" name="flexRadioDefault" id="flexRadioDefault2"
+                                <input className="form-check-input" autoComplete="off" type="radio" name="flexRadioDefault" id="flexRadioDefault2"
                                     value={role}
                                     onChange={(e) => setRole(e.target.value = 'client')} />
                                 <label className="form-check-label" htmlFor="flexRadioDefault2">
