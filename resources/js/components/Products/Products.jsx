@@ -4,28 +4,27 @@ import Swal from 'sweetalert2'
 import Create from "./Create";
 import Delete from "./Delete";
 import Update from "./Update";
-import Payrolls from "./Payrolls";
 import axios from "axios";
 import { createRoot } from "react-dom/client";
 import { useEffect, useState } from "react";
 
 
-export default function Users() {
-    const [users, setUsers] = useState([]);
+export default function Products() {
+    const [products, setProducts] = useState([]);
     const [search, setSearch] = useState("");
 
     const updateUserList = () => {
-        getUsers();
+        getProducts();
     };
 
     useEffect(() => {
-        getUsers()
+        getProducts()
     }, [])
 
-    const getUsers = async (searchTerm) => {
+    const getProducts = async (searchTerm) => {
         try {
-            const res = await axios.get(`/users-data?search=${searchTerm || ''}`)
-            setUsers(res.data)
+            const res = await axios.get(`/products-data?search=${searchTerm || ''}`)
+            setProducts(res.data)
         } catch (error) {
             console.error('Error al obtener usuarios:', error);
         }
@@ -37,7 +36,7 @@ export default function Users() {
 
         // Llama a la función para obtener proveedores
         // Si el campo de búsqueda está vacío, no se especifica un término de búsqueda
-        getUsers(searchTerm === '' ? null : searchTerm);
+        getProducts(searchTerm === '' ? null : searchTerm);
     };
 
     return (
@@ -81,32 +80,28 @@ export default function Users() {
                             Role
                         </th>
                         <th className="px-6 py-3 uppercase">
-                            Payrolls
-                        </th>
-                        <th className="px-6 py-3 uppercase">
                             Discharge date
                         </th>
                         <th className="px-6 py-3 uppercase"></th>
                     </tr>
                 </thead>
                 <tbody className="custom-tbody text-center">
-                    {users.map((user) => (
-                        <tr key={user.id} className="headerbg1">
-                            <td>{user.name}</td>
-                            <td>{user.lastname}</td>
-                            <td>{user.DNI}</td>
-                            <td>{user.phone}</td>
-                            <td>{user.email}</td>
-                            <td>{user.role}</td>
-                            <td><Payrolls pay={user.salary} paydate={user.payday}></Payrolls></td>
-                            <td>{user.created_at == null ? 'Pending' : user.created_at.substring(0, 10)}</td>
+                    {products.map((product) => (
+                        <tr key={product.id} className="headerbg1">
+                            <td>{product.name}</td>
+                            <td>{product.lastname}</td>
+                            <td>{product.DNI}</td>
+                            <td>{product.phone}</td>
+                            <td>{product.email}</td>
+                            <td>{product.role}</td>
+                            <td>{product.created_at == null ? 'Pending' : product.created_at.substring(0, 10)}</td>
                             <td>
                                 <div className="d-flex justify-content-between">
                                     <div className="pe-2">
-                                        <Update updateUserList={updateUserList} data={user}></Update>
+                                        <Update updateUserList={updateUserList} data={product}></Update>
                                     </div>
                                     <div className="pe-2">
-                                        <Delete userId={user.id} updateUserList={updateUserList} />
+                                        <Delete userId={product.id} updateUserList={updateUserList} />
                                     </div>
                                 </div>
                             </td>
@@ -118,6 +113,6 @@ export default function Users() {
     );
 }
 
-if (document.getElementById('users')) {
-    createRoot(document.getElementById('users')).render(<Users />);
+if (document.getElementById('products')) {
+    createRoot(document.getElementById('products')).render(<Products />);
 }

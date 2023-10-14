@@ -24,8 +24,6 @@ function Create({ updateUserList }) {
     const [email, setEmail] = useState('')
     const [role, setRole] = useState('')
     const [passw, setPassw] = useState('')
-    const [paydate, setPaydate] = useState('')
-    const [salary, setSalary] = useState(0)
 
     const storeUser = async (e) => {
         e.preventDefault();
@@ -37,8 +35,6 @@ function Create({ updateUserList }) {
             email: email,
             role: role,
             password: passw,
-            salary: salary,
-            payday: paydate
         });
         handleCloseModal()
         updateUserList()
@@ -50,9 +46,6 @@ function Create({ updateUserList }) {
         setEmail("");
         setRole("");
         setPassw("");
-        setSalary(0);
-        setPaydate("");
-
     };
 
     return (
@@ -109,39 +102,21 @@ function Create({ updateUserList }) {
                                 onChange={(e) => setPassw(e.target.value)} />
                         </div>
                     </div>
-                    <div className="d-flex justify-content-between">
-                        <div className="mb-3">
-                            <label htmlFor="salary" className="form-label">Salary</label>
-                            <input type="number" autoComplete="off" className="form-control" required id="salary"
-                                value={salary}
-                                onChange={(e) => setSalary(e.target.value)} />
-                        </div>
-                        <div className="mb-3">
-                            <label htmlFor="paydate" className="form-label">Payday</label>
-                            <input type="date" autoComplete="off" className="form-control" required id="paydate"
-                                value={paydate}
-                                onChange={(e) => setPaydate(e.target.value)} />
-                        </div>
+                    <div className="form-check">
+                        <input className="form-check-input" type="radio" autoComplete="off" name="flexRadioDefault" id="flexRadioDefault1"
+                            value={role}
+                            onChange={(e) => setRole(e.target.value = 'admin')} />
+                        <label className="form-check-label" htmlFor="flexRadioDefault1">
+                            Admin
+                        </label>
                     </div>
-                    <div className="d-flex justify-content-between">
-                        <div></div>
-                        <div className="form-check">
-                            <input className="form-check-input" type="radio" autoComplete="off" name="flexRadioDefault" id="flexRadioDefault1"
-                                value={role}
-                                onChange={(e) => setRole(e.target.value = 'admin')} />
-                            <label className="form-check-label" htmlFor="flexRadioDefault1">
-                                Admin
-                            </label>
-                        </div>
-                        <div className="form-check">
-                            <input className="form-check-input" autoComplete="off" type="radio" name="flexRadioDefault" id="flexRadioDefault2"
-                                value={role}
-                                onChange={(e) => setRole(e.target.value = 'client')} />
-                            <label className="form-check-label" htmlFor="flexRadioDefault2">
-                                Client
-                            </label>
-                        </div>
-                        <div></div>
+                    <div className="form-check">
+                        <input className="form-check-input" autoComplete="off" type="radio" name="flexRadioDefault" id="flexRadioDefault2"
+                            value={role}
+                            onChange={(e) => setRole(e.target.value = 'client')} />
+                        <label className="form-check-label" htmlFor="flexRadioDefault2">
+                            Client
+                        </label>
                     </div>
                     <div className="modal-footer">
                         <Button variant="secondary" onClick={handleCloseModal}>

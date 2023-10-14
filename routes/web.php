@@ -4,6 +4,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\MaterialController;
+use App\Http\Controllers\ProductController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -56,10 +57,10 @@ Route::get('/products', function () {
     return view('admin.products');
 })->middleware(['auth', 'verified'])->name('products');
 
-Route::get('/products-data/{search?}', [SupplierController::class, 'allSuppliers'])->name('suppliers-data');
-Route::post('/new-product', [SupplierController::class, 'store'])->name('new-supplier');
-Route::put('/edit-product/{idProduct}/{idMaterial}', [SupplierController::class, 'update'])->name('edit-supplier');
-Route::delete('/delete-product/{idProducts}', [SupplierController::class, 'destroy'])->name('delete-supplier');
+Route::get('/products-data/{search?}', [ProductController::class, 'index'])->name('products-data');
+Route::post('/new-product', [ProductController::class, 'store'])->name('new-product');
+Route::put('/edit-product/{idProduct}/{idMaterial}', [ProductController::class, 'update'])->name('edit-product');
+Route::delete('/delete-product/{idProducts}', [ProductController::class, 'destroy'])->name('delete-product');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

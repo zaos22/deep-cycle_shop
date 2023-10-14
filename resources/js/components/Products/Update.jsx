@@ -15,55 +15,46 @@ function Update({ updateUserList, data }) {
         setShowModal(false);
     };
 
-    const updateUsers = 'http://localhost/edit-user';
+    const updateUsers = 'http://localhost/edit-user'
 
-    const formatDate = (date) => {
-        const parsedDate = new Date(date);
-        if (!isNaN(parsedDate)) {
-            const year = parsedDate.getFullYear();
-            const month = String(parsedDate.getMonth() + 1).padStart(2, '0');
-            const day = String(parsedDate.getDate()).padStart(2, '0');
-            return `${year}-${month}-${day}`;
-        }
-        return '';
-    };
-
-    const [name, setName] = useState(data.name || '');
-    const [lastname, setLastname] = useState(data.lastname || '');
-    const [dni, setDni] = useState(data.DNI || '');
-    const [phone, setPhone] = useState(data.phone || 0);
-    const [email, setEmail] = useState(data.email || '');
-    const [role, setRole] = useState(data.role || 'admin');
-    const [passw, setPassw] = useState('');
-    const [paydate, setPaydate] = useState(formatDate(data.payday) || ''); // Formatea la fecha
-    const [salary, setSalary] = useState(data.salary || 0);
+    const [name, setName] = useState('')
+    const [lastname, setLastname] = useState('')
+    const [dni, setDni] = useState('')
+    const [phone, setPhone] = useState(0)
+    const [email, setEmail] = useState('')
+    const [role, setRole] = useState('')
+    const [passw, setPassw] = useState('')
 
     const updateUser = async (e) => {
         e.preventDefault();
-        try {
-            await axios.put(`${updateUsers}/${data.id}`, {
-                name,
-                lastname,
-                DNI: dni,
-                phone,
-                email,
-                role,
-                password: passw,
-                salary,
-                payday: paydate
-            });
-            updateUserList();
-            handleCloseModal();
-            Swal.fire('Edited!', '', 'success');
-        } catch (error) {
-            console.error('Error updating user:', error);
-        }
+        await axios.put(updateUsers + '/' + data.id, {
+            name: name,
+            lastname: lastname,
+            DNI: dni,
+            phone: phone,
+            email: email,
+            role: role,
+            password: passw
+        });
+        updateUserList()
+        handleCloseModal()
+        Swal.fire('Edited!', '', 'success')
     };
 
+    const openEdit = () => {
+        handleShowModal()
+        setName(data.name);
+        setLastname(data.lastname);
+        setDni(data.DNI);
+        setPhone(data.phone);
+        setEmail(data.email);
+        setRole(data.role);
+        setPassw('');
+    };
 
     return (
         <>
-            <Button variant="success" onClick={handleShowModal}>
+            <Button variant="success" onClick={openEdit}>
                 <i className="fa-solid fa-pen-to-square"></i>
             </Button>
 
@@ -115,26 +106,12 @@ function Update({ updateUserList, data }) {
                                 onChange={(e) => setPassw(e.target.value)} />
                         </div>
                     </div>
-                    <div className="d-flex justify-content-between">
-                    <div className="mb-3">
-                            <label htmlFor="salary" className="form-label">Salary</label>
-                            <input type="number" autoComplete="off" className="form-control" required id="salary"
-                                value={salary}
-                                onChange={(e) => setSalary(e.target.value)} />
-                        </div>
-                        <div className="mb-3">
-                            <label htmlFor="paydate" className="form-label">Payday</label>
-                            <input type="date" autoComplete="off" className="form-control" required id="paydate"
-                                value={paydate}
-                                onChange={(e) => setPaydate(e.target.value)} />
-                        </div>
-                    </div>
                     <div className="form-check">
                         {role !== 'admin' && (
                             <div>
                                 <input
                                     className="form-check-input"
-                                    type="checkbox"
+                                    type="radio"
                                     autoComplete="off"
                                     name="flexRadioDefault"
                                     id="flexRadioDefault1"
@@ -150,7 +127,7 @@ function Update({ updateUserList, data }) {
                     <div className="form-check">
                         {role !== 'client' && (
                             <div>
-                                <input className="form-check-input" autoComplete="off" type="checkbox" name="flexRadioDefault" id="flexRadioDefault2"
+                                <input className="form-check-input" autoComplete="off" type="radio" name="flexRadioDefault" id="flexRadioDefault2"
                                     value={role}
                                     onChange={(e) => setRole(e.target.value = 'client')} />
                                 <label className="form-check-label" htmlFor="flexRadioDefault2">
