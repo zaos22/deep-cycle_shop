@@ -5,6 +5,8 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\MaterialController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\MontageController;
+use App\Models\Montage;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -49,6 +51,7 @@ Route::put('/edit-supplier/{idSupplier}', [SupplierController::class, 'update'])
 Route::delete('/delete-supplier/{idSupplier}', [SupplierController::class, 'destroy'])->name('delete-supplier');
 
 Route::get('/materials-data/{idSupplier}/{search?}', [MaterialController::class, 'allMaterials'])->name('materials-data');
+Route::get('/all-materials', [MaterialController::class, 'index'])->name('all-materials');
 Route::post('/new-material', [MaterialController::class, 'store'])->name('new-material');
 Route::put('/edit-material/{idMaterial}', [MaterialController::class, 'update'])->name('edit-material');
 Route::delete('/delete-material/{idMaterial}', [MaterialController::class, 'destroy'])->name('delete-material');
@@ -60,8 +63,11 @@ Route::get('/products', function () {
 Route::get('/products-data/{search?}', [ProductController::class, 'index'])->name('products-data');
 Route::get('/moreinfo/{idProduct}', [ProductController::class, 'moreInfo'])->name('moreinfo');
 Route::post('/new-product', [ProductController::class, 'store'])->name('new-product');
+Route::post('/new-montage', [MontageController::class, 'store'])->name('new-montage');
+Route::post('/add-materials', [MontageController::class, 'storeMaterials'])->name('add-materials');
 Route::put('/edit-product/{idProduct}/{idMaterial}', [ProductController::class, 'update'])->name('edit-product');
 Route::delete('/delete-product/{idProducts}', [ProductController::class, 'destroy'])->name('delete-product');
+Route::delete('/del-montage/{montage}', [MontageController::class, 'destroy'])->name('del-montage');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

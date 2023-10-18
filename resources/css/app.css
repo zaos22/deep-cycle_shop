@@ -90,6 +90,11 @@
     color: #000;
 }
 
+.offa1 {
+    text-decoration: none;
+    color: #fff;
+}
+
 .offa:hover {
     background-color: #ffc145;
 }

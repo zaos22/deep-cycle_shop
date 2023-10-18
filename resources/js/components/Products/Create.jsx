@@ -1,51 +1,107 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Swal from 'sweetalert2';
 import ModalComponent from "../ModalComponent";
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
+import axios from 'axios';
 
 function Create({ updateUserList }) {
     const [showModal, setShowModal] = useState(false);
+    const [montage, setMontage] = useState(0);
+
+    const storeProduct = 'http://localhost/new-product'
 
     const handleShowModal = () => {
         setShowModal(true);
+        newMontage();
     };
 
     const handleCloseModal = () => {
         setShowModal(false);
     };
 
-    const storeUsers = 'http://localhost/new-user'
+    useEffect(() => {
+        getMaterials()
+    }, [])
 
+    const getMaterials = async () => {
+        try {
+            const res = await axios.get('http://localhost/all-materials');
+            setMaterials(res.data);
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
+    const newMontage = async () => {
+        try {
+            const res = await axios.post('http://localhost/new-montage');
+            setMontage(res.data['id']);
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
+    const delMontage = async () => {
+        try {
+            await axios.delete('http://localhost/del-montage' + '/' + montage);
+        } catch (error) {
+            console.error(error); // Manejar errores si ocurren
+        }
+    }
+
+    const [materials, setMaterials] = useState([]);
+    const [brand, setBrand] = useState('')
     const [name, setName] = useState('')
-    const [lastname, setLastname] = useState('')
-    const [dni, setDni] = useState('')
-    const [phone, setPhone] = useState(0)
-    const [email, setEmail] = useState('')
-    const [role, setRole] = useState('')
-    const [passw, setPassw] = useState('')
+    const [desc, setDesc] = useState('')
+    const [num_serie, setNum] = useState('')
+    const [price, setPrice] = useState(0)
 
-    const storeUser = async (e) => {
+    const storeProducts = async (e) => {
         e.preventDefault();
-        await axios.post(storeUsers, {
-            name: name,
-            lastname: lastname,
-            DNI: dni,
-            phone: phone,
-            email: email,
-            role: role,
-            password: passw,
-        });
-        handleCloseModal()
-        updateUserList()
-        Swal.fire("Created!", "", "success");
-        setName("");
-        setLastname("");
-        setDni("");
-        setPhone(0);
-        setEmail("");
-        setRole("");
-        setPassw("");
+
+        try {
+            await axios.post(storeProduct, {
+                brand: brand,
+                name: name,
+                description: desc,
+                num_serie: num_serie,
+                price: price,
+                montage_id: montage,
+            });
+
+            // El pedido se realizó con éxito
+
+            handleCloseModal();
+            updateUserList();
+            Swal.fire("Created!", "", "success");
+            setName("");
+            setBrand("");
+            setDesc("");
+            setNum("");
+            setPrice(0);
+        } catch (error) {
+            // Manejar errores aquí
+            console.error(error);
+            delMontage();
+            Swal.fire("Error", "Failed to create the product", "error");
+        }
+    };
+
+    const handleMaterialChange = (e, materialId, montageId) => {
+        const checked = e.target.checked;
+        if (checked) {
+            // Realizar inserción en la tabla de montages aquí
+            // Puedes utilizar axios.post para enviar una solicitud al servidor
+            // Asegúrate de enviar el materialId y otros datos necesarios
+            axios.post('add-materials', {
+                material_id: materialId,
+                montage_id: montageId,
+            });
+
+        } else {
+            // Si se desmarca, puedes manejar la lógica para deshacer la inserción si es necesario
+        }
     };
 
     return (
@@ -59,64 +115,58 @@ function Create({ updateUserList }) {
                 show={showModal}
                 onHide={handleCloseModal}
             >
-                <form onSubmit={storeUser}>
+                <form onSubmit={storeProducts}>
                     <div className="d-flex justify-content-between">
                         <div className="mb-3">
+                            <label htmlFor="brand" className="form-label">Brand</label>
+                            <input type="text" autoComplete="off" className="form-control" id="brand" aria-describedby="brand"
+                                value={brand}
+                                onChange={(e) => setBrand(e.target.value)} />
+                        </div>
+                        <div className="mb-3">
                             <label htmlFor="name" className="form-label">Name</label>
-                            <input type="text" autoComplete="off" className="form-control" id="name" aria-describedby="name"
+                            <input type="text" autoComplete="off" className="form-control" id="name"
                                 value={name}
                                 onChange={(e) => setName(e.target.value)} />
                         </div>
+                    </div>
+                    <div className="d-flex justify-content-between">
                         <div className="mb-3">
-                            <label htmlFor="lastname" className="form-label">Lastname</label>
-                            <input type="text" autoComplete="off" className="form-control" id="lastname"
-                                value={lastname}
-                                onChange={(e) => setLastname(e.target.value)} />
+                            <label htmlFor="desc" className="form-label">Description</label>
+                            <input type="text" autoComplete="off" className="form-control" id="desc"
+                                value={desc}
+                                onChange={(e) => setDesc(e.target.value)} />
+                        </div>
+                        <div className="mb-3">
+                            <label htmlFor="num_serie" className="form-label">Num Serie</label>
+                            <input type="text" autoComplete="off" className="form-control" id="num_serie"
+                                value={num_serie}
+                                onChange={(e) => setNum(e.target.value)} />
                         </div>
                     </div>
                     <div className="d-flex justify-content-between">
                         <div className="mb-3">
-                            <label htmlFor="dni" className="form-label">DNI</label>
-                            <input type="text" autoComplete="off" className="form-control" id="dni"
-                                value={dni}
-                                onChange={(e) => setDni(e.target.value)} />
+                            <label htmlFor="price" className="form-label">Price</label>
+                            <input type="number" autoComplete="off" className="form-control" required id="price"
+                                value={price}
+                                onChange={(e) => setPrice(e.target.value)} />
                         </div>
                         <div className="mb-3">
-                            <label htmlFor="phone" className="form-label">Phone</label>
-                            <input type="number" autoComplete="off" className="form-control" id="phone"
-                                value={phone}
-                                onChange={(e) => setPhone(e.target.value)} />
+                            <label className="form-label">Materials</label>
+                            {materials.map((material) => (
+                                <div key={material.id} className="form-check">
+                                    <input
+                                        type="checkbox"
+                                        className="form-check-input"
+                                        id={`material-${material.id}`}
+                                        onChange={(e) => handleMaterialChange(e, material.id, montage)}
+                                    />
+                                    <label className="form-check-label" htmlFor={`material-${material.id}`}>
+                                        {material.type}
+                                    </label>
+                                </div>
+                            ))}
                         </div>
-                    </div>
-                    <div className="d-flex justify-content-between">
-                        <div className="mb-3">
-                            <label htmlFor="email" className="form-label">Email</label>
-                            <input type="email" autoComplete="off" className="form-control" required id="email"
-                                value={email}
-                                onChange={(e) => setEmail(e.target.value)} />
-                        </div>
-                        <div className="mb-3">
-                            <label htmlFor="passw" className="form-label">Password</label>
-                            <input type="password" autoComplete="off" className="form-control" required id="passw"
-                                value={passw}
-                                onChange={(e) => setPassw(e.target.value)} />
-                        </div>
-                    </div>
-                    <div className="form-check">
-                        <input className="form-check-input" type="radio" autoComplete="off" name="flexRadioDefault" id="flexRadioDefault1"
-                            value={role}
-                            onChange={(e) => setRole(e.target.value = 'admin')} />
-                        <label className="form-check-label" htmlFor="flexRadioDefault1">
-                            Admin
-                        </label>
-                    </div>
-                    <div className="form-check">
-                        <input className="form-check-input" autoComplete="off" type="radio" name="flexRadioDefault" id="flexRadioDefault2"
-                            value={role}
-                            onChange={(e) => setRole(e.target.value = 'client')} />
-                        <label className="form-check-label" htmlFor="flexRadioDefault2">
-                            Client
-                        </label>
                     </div>
                     <div className="modal-footer">
                         <Button variant="secondary" onClick={handleCloseModal}>

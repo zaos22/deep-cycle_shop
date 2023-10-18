@@ -13,7 +13,7 @@ class Product extends Model
         'description',
         'num_serie',
         'price',
-        'results_id',
+        'montage_id',
     ];
 
 }

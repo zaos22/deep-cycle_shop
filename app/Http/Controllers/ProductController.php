@@ -62,7 +62,8 @@ class ProductController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'brand' => ['required', 'string', 'max:255'],
             'description' => ['required', 'string', 'max:255'],
-            'price' => ['required', 'double'],
+            'price' => ['required', 'integer'],
+            'montage_id' => ['required', 'integer'],
             'num_serie' => ['required', 'string', 'max:255', 'unique:' . Product::class],
         ]);
 
@@ -72,6 +73,7 @@ class ProductController extends Controller
             'description' => $request->description,
             'price' => $request->price,
             'num_serie' => $request->num_serie,
+            'montage_id' => $request->montage_id
         ]);
     }
 
@@ -81,7 +83,7 @@ class ProductController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'brand' => ['required', 'string', 'max:255'],
             'description' => ['required', 'string', 'max:255'],
-            'price' => ['required', 'double'],
+            'price' => ['required', 'integer'],
             'num_serie' => ['required', 'string', 'email', 'max:255', 'unique:products,num_serie,' . $idProduct->id],
         ]);
 
