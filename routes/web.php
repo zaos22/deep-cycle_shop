@@ -58,6 +58,7 @@ Route::get('/products', function () {
 })->middleware(['auth', 'verified'])->name('products');
 
 Route::get('/products-data/{search?}', [ProductController::class, 'index'])->name('products-data');
+Route::get('/moreinfo/{idProduct}', [ProductController::class, 'moreInfo'])->name('moreinfo');
 Route::post('/new-product', [ProductController::class, 'store'])->name('new-product');
 Route::put('/edit-product/{idProduct}/{idMaterial}', [ProductController::class, 'update'])->name('edit-product');
 Route::delete('/delete-product/{idProducts}', [ProductController::class, 'destroy'])->name('delete-product');

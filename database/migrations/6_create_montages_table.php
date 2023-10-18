@@ -13,8 +13,9 @@ return new class extends Migration
     {
         Schema::create('montages', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('material_id')->references('id')->on('materials')->onDelete('cascade');
-            $table->foreignId('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreignId('material_id')->nullable()->references('id')->on('materials')->onDelete('cascade');
+            $table->foreignId('user_id')->nullable()->references('id')->on('users')->onDelete('cascade');
+            $table->foreignId('montage_id')->nullable()->references('id')->on('montages')->onDelete('cascade');
             $table->timestamps();
         });
     }

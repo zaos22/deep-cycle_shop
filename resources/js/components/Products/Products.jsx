@@ -4,6 +4,7 @@ import Swal from 'sweetalert2'
 import Create from "./Create";
 import Delete from "./Delete";
 import Update from "./Update";
+import More from "./More";
 import axios from "axios";
 import { createRoot } from "react-dom/client";
 import { useEffect, useState } from "react";
@@ -65,22 +66,16 @@ export default function Products() {
                             Name
                         </th>
                         <th className="px-6 py-3 uppercase">
-                            Lastname
+                            Brand
                         </th>
                         <th className="px-6 py-3 uppercase">
-                            ID
+                            Description
                         </th>
                         <th className="px-6 py-3 uppercase">
-                            Phone
+                            Price
                         </th>
                         <th className="px-6 py-3 uppercase">
-                            Email
-                        </th>
-                        <th className="px-6 py-3 uppercase">
-                            Role
-                        </th>
-                        <th className="px-6 py-3 uppercase">
-                            Discharge date
+                            Num_Serie
                         </th>
                         <th className="px-6 py-3 uppercase"></th>
                     </tr>
@@ -89,14 +84,15 @@ export default function Products() {
                     {products.map((product) => (
                         <tr key={product.id} className="headerbg1">
                             <td>{product.name}</td>
-                            <td>{product.lastname}</td>
-                            <td>{product.DNI}</td>
-                            <td>{product.phone}</td>
-                            <td>{product.email}</td>
-                            <td>{product.role}</td>
-                            <td>{product.created_at == null ? 'Pending' : product.created_at.substring(0, 10)}</td>
+                            <td>{product.brand}</td>
+                            <td>{product.description}</td>
+                            <td>{product.price}</td>
+                            <td>{product.num_serie}</td>
                             <td>
                                 <div className="d-flex justify-content-between">
+                                <div className="pe-2">
+                                        <More idProduct={product.id}></More>
+                                    </div>
                                     <div className="pe-2">
                                         <Update updateUserList={updateUserList} data={product}></Update>
                                     </div>
