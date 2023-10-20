@@ -7,6 +7,7 @@ use App\Http\Controllers\MaterialController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\MontageController;
 use App\Models\Montage;
+use App\Models\Product;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -53,8 +54,11 @@ Route::delete('/delete-supplier/{idSupplier}', [SupplierController::class, 'dest
 Route::get('/materials-data/{idSupplier}/{search?}', [MaterialController::class, 'allMaterials'])->name('materials-data');
 Route::get('/all-materials', [MaterialController::class, 'index'])->name('all-materials');
 Route::post('/new-material', [MaterialController::class, 'store'])->name('new-material');
+Route::post('/duplicate-material/{idMaterial}', [MaterialController::class, 'duplicate'])->name('duplicate-material');
 Route::put('/edit-material/{idMaterial}', [MaterialController::class, 'update'])->name('edit-material');
 Route::delete('/delete-material/{idMaterial}', [MaterialController::class, 'destroy'])->name('delete-material');
+Route::delete('/used-material/{idMaterial}', [MaterialController::class, 'used'])->name('used-material');
+Route::delete('/usedall-material/{idMaterial}', [MaterialController::class, 'usedAll'])->name('usedall-material');
 
 Route::get('/products', function () {
     return view('admin.products');
@@ -63,10 +67,13 @@ Route::get('/products', function () {
 Route::get('/products-data/{search?}', [ProductController::class, 'index'])->name('products-data');
 Route::get('/moreinfo/{idProduct}', [ProductController::class, 'moreInfo'])->name('moreinfo');
 Route::post('/new-product', [ProductController::class, 'store'])->name('new-product');
+Route::post('/duplicate-product/{idProduct}', [ProductController::class, 'duplicate'])->name('duplicate-product');
 Route::post('/new-montage', [MontageController::class, 'store'])->name('new-montage');
-Route::post('/add-materials', [MontageController::class, 'storeMaterials'])->name('add-materials');
-Route::put('/edit-product/{idProduct}/{idMaterial}', [ProductController::class, 'update'])->name('edit-product');
-Route::delete('/delete-product/{idProducts}', [ProductController::class, 'destroy'])->name('delete-product');
+Route::post('/add-materials', [ProductController::class, 'storeMaterials'])->name('add-materials');
+Route::put('/edit-product/{idProduct}', [ProductController::class, 'update'])->name('edit-product');
+Route::delete('/delete-product/{idProduct}/{idMontage}', [ProductController::class, 'destroy'])->name('delete-product');
+Route::delete('/sell-product/{idProduct}', [ProductController::class, 'sell'])->name('sell-product');
+Route::delete('/soldout-product/{idProduct}', [ProductController::class, 'soldout'])->name('soldout-product');
 Route::delete('/del-montage/{montage}', [MontageController::class, 'destroy'])->name('del-montage');
 
 Route::middleware('auth')->group(function () {

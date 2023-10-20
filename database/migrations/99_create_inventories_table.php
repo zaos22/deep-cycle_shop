@@ -13,8 +13,9 @@ return new class extends Migration
     {
         Schema::create('inventories', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('product_id')->references('id')->on('products')->onDelete('cascade');
-            $table->string('QR');
+            $table->foreignId('product_id')->nullable()->references('id')->on('products')->onDelete('cascade');
+            $table->foreignId('material_id')->nullable()->references('id')->on('materials')->onDelete('cascade');
+            $table->string('QR')->nullable();
             $table->timestamps();
         });
     }

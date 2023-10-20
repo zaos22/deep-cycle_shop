@@ -15,7 +15,7 @@ function Delete({ userId, updateUserList }) {
                 const res = await axios.delete(delSupplier + '/' + userId);
                 updateUserList()
             } else if (result.isDenied) {
-                Swal.fire('The user is safe', '', 'info');
+                Swal.fire('The supplier is safe', '', 'info');
             }
         });
     };

@@ -88,7 +88,7 @@ function Create({ updateUserList }) {
         }
     };
 
-    const handleMaterialChange = (e, materialId, montageId) => {
+    const handleMaterialChange = (e, materialId) => {
         const checked = e.target.checked;
         if (checked) {
             // Realizar inserción en la tabla de montages aquí
@@ -96,7 +96,7 @@ function Create({ updateUserList }) {
             // Asegúrate de enviar el materialId y otros datos necesarios
             axios.post('add-materials', {
                 material_id: materialId,
-                montage_id: montageId,
+                montage_id: montage,
             });
 
         } else {
@@ -111,7 +111,7 @@ function Create({ updateUserList }) {
             </Button>
 
             <ModalComponent
-                title="New User"
+                title="New Product"
                 show={showModal}
                 onHide={handleCloseModal}
             >
@@ -159,7 +159,7 @@ function Create({ updateUserList }) {
                                         type="checkbox"
                                         className="form-check-input"
                                         id={`material-${material.id}`}
-                                        onChange={(e) => handleMaterialChange(e, material.id, montage)}
+                                        onChange={(e) => handleMaterialChange(e, material.id)}
                                     />
                                     <label className="form-check-label" htmlFor={`material-${material.id}`}>
                                         {material.type}

@@ -77,6 +77,9 @@ function Materials({ idSupplier }) {
                             <th className="px-6 py-3 uppercase">
                                 Price
                             </th>
+                            <th className="px-6 py-3 uppercase">
+                                Stock
+                            </th>
                             <th className="px-6 py-3 uppercase text-center">
                                 <Create updateUserList={updateUserList} idSupplier={idSupplier}></Create>
                             </th>
@@ -87,6 +90,7 @@ function Materials({ idSupplier }) {
                             <tr key={material.id} className="headerbg1">
                                 <td>{material.type}</td>
                                 <td>{material.price}</td>
+                                <td>{material.stock}</td>
                                 <td>
                                     <div className="d-flex justify-content-between">
                                         <div className="pe-2">

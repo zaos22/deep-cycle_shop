@@ -20,20 +20,6 @@ class MontageController extends Controller
         }
     }
 
-    public function storeMaterials(Request $request)
-    {
-        try {
-            Montage::create([
-                'user_id' => auth()->user()->id,
-                'material_id' => $request->material_id,
-                'montage_id' => $request->montage_id,
-            ]);
-            return response()->json(['id' => 'Success']);
-        } catch (\Exception $e) {
-            return response()->json(['error' => 'Error'], 500);
-        }
-    }
-
     public function destroy(Montage $montage)
     {
         try {

@@ -1,6 +1,4 @@
 import react from "react";
-import Button from 'react-bootstrap/Button';
-import Swal from 'sweetalert2'
 import Create from "./Create";
 import Delete from "./Delete";
 import Update from "./Update";
@@ -8,6 +6,7 @@ import More from "./More";
 import axios from "axios";
 import { createRoot } from "react-dom/client";
 import { useEffect, useState } from "react";
+import Duplicate from "./Duplicate";
 
 
 export default function Products() {
@@ -90,14 +89,17 @@ export default function Products() {
                             <td>{product.num_serie}</td>
                             <td>
                                 <div className="d-flex justify-content-between">
-                                <div className="pe-2">
-                                        <More idProduct={product.id}></More>
+                                    <div className="pe-2">
+                                        <More idProduct={product.id} update={updateUserList}></More>
+                                    </div>
+                                    <div className="pe-2">
+                                        <Duplicate updateUserList={updateUserList} idProduct={product.id} ></Duplicate>
                                     </div>
                                     <div className="pe-2">
                                         <Update updateUserList={updateUserList} data={product}></Update>
                                     </div>
                                     <div className="pe-2">
-                                        <Delete userId={product.id} updateUserList={updateUserList} />
+                                        <Delete montageID={product.montage_id} productID={product.id} updateUserList={updateUserList} />
                                     </div>
                                 </div>
                             </td>

@@ -15,26 +15,22 @@ function Update({ updateUserList, data }) {
         setShowModal(false);
     };
 
-    const updateUsers = 'http://localhost/edit-user'
+    const updateProducts = 'http://localhost/edit-product'
 
+    const [brand, setBrand] = useState('')
     const [name, setName] = useState('')
-    const [lastname, setLastname] = useState('')
-    const [dni, setDni] = useState('')
-    const [phone, setPhone] = useState(0)
-    const [email, setEmail] = useState('')
-    const [role, setRole] = useState('')
-    const [passw, setPassw] = useState('')
+    const [desc, setDesc] = useState('')
+    const [num_serie, setNum] = useState('')
+    const [price, setPrice] = useState(0)
 
-    const updateUser = async (e) => {
+    const updateProduct = async (e) => {
         e.preventDefault();
-        await axios.put(updateUsers + '/' + data.id, {
+        await axios.put(updateProducts + '/' + data.id, {
+            brand: brand,
             name: name,
-            lastname: lastname,
-            DNI: dni,
-            phone: phone,
-            email: email,
-            role: role,
-            password: passw
+            description: desc,
+            num_serie: num_serie,
+            price: price,
         });
         updateUserList()
         handleCloseModal()
@@ -43,13 +39,11 @@ function Update({ updateUserList, data }) {
 
     const openEdit = () => {
         handleShowModal()
+        setBrand(data.brand);
         setName(data.name);
-        setLastname(data.lastname);
-        setDni(data.DNI);
-        setPhone(data.phone);
-        setEmail(data.email);
-        setRole(data.role);
-        setPassw('');
+        setDesc(data.description);
+        setPrice(data.price);
+        setNum(data.num_serie);
     };
 
     return (
@@ -59,82 +53,46 @@ function Update({ updateUserList, data }) {
             </Button>
 
             <ModalComponent
-                title="Update User"
+                title="Update Product"
                 show={showModal}
                 onHide={handleCloseModal}
             >
-                <form onSubmit={updateUser}>
+                <form onSubmit={updateProduct}>
                     <div className="d-flex justify-content-between">
                         <div className="mb-3">
+                            <label htmlFor="brand" className="form-label">Brand</label>
+                            <input type="text" autoComplete="off" className="form-control" id="brand" aria-describedby="brand"
+                                value={brand}
+                                onChange={(e) => setBrand(e.target.value)} />
+                        </div>
+                        <div className="mb-3">
                             <label htmlFor="name" className="form-label">Name</label>
-                            <input type="text" autoComplete="off" className="form-control" id="name" aria-describedby="name"
+                            <input type="text" autoComplete="off" className="form-control" id="name"
                                 value={name}
                                 onChange={(e) => setName(e.target.value)} />
                         </div>
+                    </div>
+                    <div className="d-flex justify-content-between">
                         <div className="mb-3">
-                            <label htmlFor="lastname" className="form-label">Lastname</label>
-                            <input type="text" autoComplete="off" className="form-control" id="lastname"
-                                value={lastname}
-                                onChange={(e) => setLastname(e.target.value)} />
+                            <label htmlFor="desc" className="form-label">Description</label>
+                            <input type="text" autoComplete="off" className="form-control" id="desc"
+                                value={desc}
+                                onChange={(e) => setDesc(e.target.value)} />
+                        </div>
+                        <div className="mb-3">
+                            <label htmlFor="num_serie" className="form-label">Num Serie</label>
+                            <input type="text" autoComplete="off" className="form-control" id="num_serie"
+                                value={num_serie}
+                                onChange={(e) => setNum(e.target.value)} />
                         </div>
                     </div>
                     <div className="d-flex justify-content-between">
                         <div className="mb-3">
-                            <label htmlFor="dni" className="form-label">DNI</label>
-                            <input type="text" autoComplete="off" className="form-control" id="dni"
-                                value={dni}
-                                onChange={(e) => setDni(e.target.value)} />
+                            <label htmlFor="price" className="form-label">Price</label>
+                            <input type="number" autoComplete="off" className="form-control" required id="price"
+                                value={price}
+                                onChange={(e) => setPrice(e.target.value)} />
                         </div>
-                        <div className="mb-3">
-                            <label htmlFor="phone" className="form-label">Phone</label>
-                            <input type="number" autoComplete="off" className="form-control" id="phone"
-                                value={phone}
-                                onChange={(e) => setPhone(e.target.value)} />
-                        </div>
-                    </div>
-                    <div className="d-flex justify-content-between">
-                        <div className="mb-3">
-                            <label htmlFor="email" className="form-label">Email</label>
-                            <input type="email" autoComplete="off" className="form-control" required id="email"
-                                value={email}
-                                onChange={(e) => setEmail(e.target.value)} />
-                        </div>
-                        <div className="mb-3">
-                            <label htmlFor="passw" className="form-label">Password</label>
-                            <input type="password" autoComplete="off" className="form-control" id="passw"
-                                value={passw}
-                                onChange={(e) => setPassw(e.target.value)} />
-                        </div>
-                    </div>
-                    <div className="form-check">
-                        {role !== 'admin' && (
-                            <div>
-                                <input
-                                    className="form-check-input"
-                                    type="radio"
-                                    autoComplete="off"
-                                    name="flexRadioDefault"
-                                    id="flexRadioDefault1"
-                                    value={role} // Asegúrate de establecer el valor correcto aquí
-                                    onChange={(e) => setRole('admin')} // Asegúrate de establecer 'admin' como valor aquí
-                                />
-                                <label className="form-check-label" htmlFor="flexRadioDefault1">
-                                    Admin
-                                </label>
-                            </div>
-                        )}
-                    </div>
-                    <div className="form-check">
-                        {role !== 'client' && (
-                            <div>
-                                <input className="form-check-input" autoComplete="off" type="radio" name="flexRadioDefault" id="flexRadioDefault2"
-                                    value={role}
-                                    onChange={(e) => setRole(e.target.value = 'client')} />
-                                <label className="form-check-label" htmlFor="flexRadioDefault2">
-                                    Client
-                                </label>
-                            </div>
-                        )}
                     </div>
                     <div className="modal-footer">
                         <Button variant="secondary" onClick={handleCloseModal}>

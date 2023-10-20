@@ -9,6 +9,7 @@ class Inventory extends Model
 {
     protected $fillable = [
         'product_id',
+        'material_id',
         'QR',
     ];
 

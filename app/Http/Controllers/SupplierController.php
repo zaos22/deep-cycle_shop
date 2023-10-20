@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Inventory;
 use App\Models\Material;
 use Illuminate\Support\Facades\DB;
 use App\Models\Supplier;
@@ -84,6 +85,10 @@ class SupplierController extends Controller
             'type' => $request->type,
             'price' => $request->price,
             'suppliers_id' => $supplier->id,
+        ]);
+
+        Inventory::create([
+            'material_id' => $material->id,
         ]);
     }
 

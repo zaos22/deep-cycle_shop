@@ -10,6 +10,7 @@ class Montage extends Model
     protected $fillable = [
         'material_id',
         'user_id',
+        'montage_id',
     ];
 
 }

@@ -24,6 +24,31 @@ function Update({ updateUserList, data }) {
     const [type, setMtype] = useState('')
     const [price, setMprice] = useState(0)
 
+    const x2Material = 'http://localhost/duplicate-material'
+    const _1Material = 'http://localhost/used-material'
+    const _Material = 'http://localhost/usedall-material'
+
+    const x2Materials = async () => {
+        await axios.post(x2Material + '/' + data.id);
+        Swal.fire('Great!', 'The material was duplicated', 'success');
+        updateUserList()
+        handleCloseModal()
+    }
+
+    const _1Materials = async () => {
+        await axios.delete(_1Material + '/' + data.id);
+        Swal.fire('Great!', 'The material was used', 'success');
+        updateUserList()
+        handleCloseModal()
+    }
+
+    const _Materials = async () => {
+        await axios.delete(_Material + '/' + data.id);
+        Swal.fire('Great!', 'All the materials are used', 'success');
+        updateUserList()
+        handleCloseModal()
+    }
+
 
     const updateMaterial = async (e) => {
         e.preventDefault();
@@ -60,6 +85,45 @@ function Update({ updateUserList, data }) {
                             value={price}
                             onChange={(e) => setMprice(e.target.value)} />
                     </div>
+                    <div className="d-flex justify-content-between">
+                        <div></div>
+                        <div></div>
+                        <div className='pe-2'>
+                            <label htmlFor="duplicate">Duplicate 5</label>
+                        </div>
+                        <div className='pe-2'>
+                            <label htmlFor="soldone">Used 5</label>
+                        </div>
+                        <div className='pe-2'>
+                            <label htmlFor="soldout">All Used</label>
+                        </div>
+                        <div></div>
+                        <div></div>
+                    </div>
+                    <div className='pt2 pb-2'></div>
+                    <div className="d-flex justify-content-between">
+                        <div></div>
+                        <div></div>
+                        <div className='pe-2'>
+                            <Button variant="primary" onClick={x2Materials}>
+                                <i className="fa-solid fa-plus"></i>
+                            </Button>
+                        </div>
+                        <div className='pe-2'>
+                            <Button variant="secondary" onClick={_1Materials}>
+                                <i className="fa-solid fa-money-bill-1-wave"></i>
+                            </Button>
+                        </div>
+                        <div className='pe-2'>
+                            <Button variant="success" onClick={_Materials}>
+                                <i className="fa-solid fa-sack-dollar"></i>
+                            </Button>
+                        </div>
+
+                        <div></div>
+                        <div></div>
+                    </div>
+                    <div className='mb-5'></div>
                     <div className="modal-footer">
                         <Button variant="secondary" onClick={handleCloseModal}>
                             Close
