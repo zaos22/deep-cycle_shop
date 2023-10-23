@@ -27,7 +27,11 @@ function Duplicate({ updateUserList, idProduct }) {
         await axios.post(x1Product + '/' + idProduct);
         Swal.fire('Great!', 'The product was duplicated', 'success');
         updateUserList()
-        location.reload()
+        // Espera 3 segundos antes de recargar la página
+        setTimeout(function () {
+            location.reload();
+        }, 3000); // 3000 milisegundos (3 segundos)
+
         handleCloseModal()
     }
 
@@ -35,7 +39,11 @@ function Duplicate({ updateUserList, idProduct }) {
         await axios.post(x5Product + '/' + idProduct);
         Swal.fire('Great!', 'The products are duplicated', 'success');
         updateUserList()
-        location.reload()
+        // Espera 3 segundos antes de recargar la página
+        setTimeout(function () {
+            location.reload();
+        }, 3000); // 3000 milisegundos (3 segundos)
+
         handleCloseModal()
     }
 
@@ -43,7 +51,11 @@ function Duplicate({ updateUserList, idProduct }) {
         await axios.delete(_1Product + '/' + idProduct);
         Swal.fire('Great!', 'The product was sold', 'success');
         updateUserList()
-        location.reload()
+        // Espera 3 segundos antes de recargar la página
+        setTimeout(function () {
+            location.reload();
+        }, 3000); // 3000 milisegundos (3 segundos)
+
         handleCloseModal()
     }
 
@@ -51,7 +63,11 @@ function Duplicate({ updateUserList, idProduct }) {
         await axios.delete(_5Product + '/' + idProduct);
         Swal.fire('Great!', 'The products are sold', 'success');
         updateUserList()
-        location.reload()
+        // Espera 3 segundos antes de recargar la página
+        setTimeout(function () {
+            location.reload();
+        }, 3000); // 3000 milisegundos (3 segundos)
+
         handleCloseModal()
     }
 
@@ -59,7 +75,11 @@ function Duplicate({ updateUserList, idProduct }) {
         await axios.delete(_Product + '/' + idProduct);
         Swal.fire('Great!', 'All the products are sold out', 'success');
         updateUserList()
-        location.reload()
+        // Espera 3 segundos antes de recargar la página
+        setTimeout(function () {
+            location.reload();
+        }, 3000); // 3000 milisegundos (3 segundos)
+
         handleCloseModal()
     }
 
