@@ -4,7 +4,6 @@ import ModalComponent from "../ModalComponent";
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 import axios from 'axios';
-import { resolvePackageData } from 'vite';
 
 function Duplicate({ updateUserList, idProduct }) {
     const [showModal, setShowModal] = useState(false);
