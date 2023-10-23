@@ -4,6 +4,7 @@ import ModalComponent from "../ModalComponent";
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 import axios from 'axios';
+import { resolvePackageData } from 'vite';
 
 function Duplicate({ updateUserList, idProduct }) {
     const [showModal, setShowModal] = useState(false);
@@ -27,6 +28,7 @@ function Duplicate({ updateUserList, idProduct }) {
         await axios.post(x1Product + '/' + idProduct);
         Swal.fire('Great!', 'The product was duplicated', 'success');
         updateUserList()
+        location.reload()
         handleCloseModal()
     }
 
@@ -34,6 +36,7 @@ function Duplicate({ updateUserList, idProduct }) {
         await axios.post(x5Product + '/' + idProduct);
         Swal.fire('Great!', 'The products are duplicated', 'success');
         updateUserList()
+        location.reload()
         handleCloseModal()
     }
 
@@ -41,6 +44,7 @@ function Duplicate({ updateUserList, idProduct }) {
         await axios.delete(_1Product + '/' + idProduct);
         Swal.fire('Great!', 'The product was sold', 'success');
         updateUserList()
+        location.reload()
         handleCloseModal()
     }
 
@@ -48,6 +52,7 @@ function Duplicate({ updateUserList, idProduct }) {
         await axios.delete(_5Product + '/' + idProduct);
         Swal.fire('Great!', 'The products are sold', 'success');
         updateUserList()
+        location.reload()
         handleCloseModal()
     }
 
@@ -55,6 +60,7 @@ function Duplicate({ updateUserList, idProduct }) {
         await axios.delete(_Product + '/' + idProduct);
         Swal.fire('Great!', 'All the products are sold out', 'success');
         updateUserList()
+        location.reload()
         handleCloseModal()
     }
 
