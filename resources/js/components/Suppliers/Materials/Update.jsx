@@ -24,12 +24,21 @@ function Update({ updateUserList, data }) {
     const [type, setMtype] = useState('')
     const [price, setMprice] = useState(0)
 
-    const x2Material = 'http://localhost/duplicate-material'
-    const _1Material = 'http://localhost/used-material'
+    const x1Material = 'http://localhost/duplicate1-material'
+    const x5Material = 'http://localhost/duplicate-material'
+    const _1Material = 'http://localhost/used1-material'
+    const _5Material = 'http://localhost/used-material'
     const _Material = 'http://localhost/usedall-material'
 
-    const x2Materials = async () => {
-        await axios.post(x2Material + '/' + data.id);
+    const x1Materials = async () => {
+        await axios.post(x1Material + '/' + data.id);
+        Swal.fire('Great!', 'The material was duplicated', 'success');
+        updateUserList()
+        handleCloseModal()
+    }
+
+    const x5Materials = async () => {
+        await axios.post(x5Material + '/' + data.id);
         Swal.fire('Great!', 'The material was duplicated', 'success');
         updateUserList()
         handleCloseModal()
@@ -37,6 +46,13 @@ function Update({ updateUserList, data }) {
 
     const _1Materials = async () => {
         await axios.delete(_1Material + '/' + data.id);
+        Swal.fire('Great!', 'The material was used', 'success');
+        updateUserList()
+        handleCloseModal()
+    }
+
+    const _5Materials = async () => {
+        await axios.delete(_5Material + '/' + data.id);
         Swal.fire('Great!', 'The material was used', 'success');
         updateUserList()
         handleCloseModal()
@@ -85,41 +101,56 @@ function Update({ updateUserList, data }) {
                             value={price}
                             onChange={(e) => setMprice(e.target.value)} />
                     </div>
-                    <div className="d-flex justify-content-between">
-                        <div></div>
-                        <div></div>
-                        <div className='pe-2'>
-                            <label htmlFor="duplicate">Duplicate 5</label>
-                        </div>
-                        <div className='pe-2'>
-                            <label htmlFor="soldone">Used 5</label>
-                        </div>
-                        <div className='pe-2'>
-                            <label htmlFor="soldout">All Used</label>
-                        </div>
-                        <div></div>
-                        <div></div>
-                    </div>
                     <div className='pt2 pb-2'></div>
                     <div className="d-flex justify-content-between">
                         <div></div>
                         <div></div>
-                        <div className='pe-2'>
-                            <Button variant="primary" onClick={x2Materials}>
-                                <i className="fa-solid fa-plus"></i>
-                            </Button>
+                        <div className='text-center'>
+                            <div className='mb-2'>
+                                <label htmlFor="duplicate">Duplicate</label>
+                            </div>
+                            <div className="d-flex justify-content-between">
+                                <div className='pe-2'>
+                                    <Button variant="primary" onClick={x1Materials}>
+                                        <i className="fa-solid fa-1"></i>
+                                    </Button>
+                                </div>
+                                <div className='pe-2'>
+                                    <Button variant="secondary" onClick={x5Materials}>
+                                        <i class="fa-solid fa-5"></i>
+                                    </Button>
+                                </div>
+                            </div>
                         </div>
-                        <div className='pe-2'>
-                            <Button variant="secondary" onClick={_1Materials}>
-                                <i className="fa-solid fa-money-bill-1-wave"></i>
-                            </Button>
+                        <div className='text-center'>
+                            <div className='mb-2'>
+                                <label htmlFor="soldone">Used</label>
+                            </div>
+                            <div className="d-flex justify-content-between">
+                                <div className='pe-2'>
+                                    <Button variant="primary" onClick={_1Materials}>
+                                        <i className="fa-solid fa-1"></i>
+                                    </Button>
+                                </div>
+                                <div className='pe-2'>
+                                    <Button variant="secondary" onClick={_5Materials}>
+                                        <i class="fa-solid fa-5"></i>
+                                    </Button>
+                                </div>
+                            </div>
                         </div>
-                        <div className='pe-2'>
-                            <Button variant="success" onClick={_Materials}>
-                                <i className="fa-solid fa-sack-dollar"></i>
-                            </Button>
+                        <div className='text-center'>
+                        <div className='mb-2'>
+                            <label htmlFor="soldout">All Used</label>
                         </div>
-
+                            <div className="d-flex justify-content-between">
+                                <div className='pe-2'>
+                                    <Button variant="danger" onClick={_Materials}>
+                                        <i className="fa-solid fa-warehouse"></i>
+                                    </Button>
+                                </div>
+                            </div>
+                        </div>
                         <div></div>
                         <div></div>
                     </div>

@@ -44,6 +44,17 @@ class MaterialController extends Controller
         return response()->json($result);
     }
 
+    public function duplicate1($idMaterial)
+    {
+
+        Inventory::create([
+            'material_id' => $idMaterial,
+        ]);
+
+
+        // Devuelve una respuesta adecuada, por ejemplo:
+        return response()->json(['message' => 'The material duplicated']);
+    }
 
     public function duplicate($idMaterial)
     {
@@ -55,9 +66,20 @@ class MaterialController extends Controller
         }
 
         // Devuelve una respuesta adecuada, por ejemplo:
-        return response()->json(['message' => '5 products duplicated']);
+        return response()->json(['message' => '5 materials duplicated']);
     }
 
+    public function used1($idMaterial)
+    {
+        // Elimina una fila donde 'product_id' coincide con $idProduct y limita la eliminación a una fila
+        $deletedRows = Inventory::where('material_id', $idMaterial)->limit(1)->delete();
+
+        if ($deletedRows > 0) {
+            return response()->json(['message' => 'One material is marked as used']);
+        } else {
+            return response()->json(['message' => 'No matching rows found to mark as used']);
+        }
+    }
 
     public function used($idMaterial)
     {
@@ -65,9 +87,9 @@ class MaterialController extends Controller
         $deletedRows = Inventory::where('material_id', $idMaterial)->limit(5)->delete();
 
         if ($deletedRows > 0) {
-            return response()->json(['message' => 'One product is marked as sold out']);
+            return response()->json(['message' => 'Five materials are marked as used']);
         } else {
-            return response()->json(['message' => 'No matching rows found to mark as sold out']);
+            return response()->json(['message' => 'No matching rows found to mark as used']);
         }
     }
 
@@ -77,9 +99,9 @@ class MaterialController extends Controller
         $deletedRows = Inventory::where('material_id', $idMaterial)->delete();
 
         if ($deletedRows > 0) {
-            return response()->json(['message' => 'All products are marked as sold out']);
+            return response()->json(['message' => 'All products are marked as used']);
         } else {
-            return response()->json(['message' => 'No matching rows found to mark as sold out']);
+            return response()->json(['message' => 'No matching rows found to mark as used']);
         }
     }
     public function store(Request $request)

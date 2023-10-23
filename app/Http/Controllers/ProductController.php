@@ -82,6 +82,17 @@ class ProductController extends Controller
         ]);
     }
 
+    public function duplicate1($idProduct)
+    {
+
+        Inventory::create([
+            'product_id' => $idProduct,
+        ]);
+
+        // Devuelve una respuesta adecuada, por ejemplo:
+        return response()->json(['message' => 'The product duplicated']);
+    }
+
     public function duplicate($idProduct)
     {
         // Crea 5 filas con el mismo 'product_id'
@@ -95,6 +106,17 @@ class ProductController extends Controller
         return response()->json(['message' => '5 products duplicated']);
     }
 
+    public function sell1($idProduct)
+    {
+        // Elimina una fila donde 'product_id' coincide con $idProduct y limita la eliminación a una fila
+        $deletedRows = Inventory::where('product_id', $idProduct)->limit(1)->delete();
+
+        if ($deletedRows > 0) {
+            return response()->json(['message' => 'One product is marked as sold']);
+        } else {
+            return response()->json(['message' => 'No matching rows found to mark as sold']);
+        }
+    }
 
     public function sell($idProduct)
     {
@@ -102,9 +124,9 @@ class ProductController extends Controller
         $deletedRows = Inventory::where('product_id', $idProduct)->limit(5)->delete();
 
         if ($deletedRows > 0) {
-            return response()->json(['message' => 'One product is marked as sold out']);
+            return response()->json(['message' => 'Five product is marked as sold']);
         } else {
-            return response()->json(['message' => 'No matching rows found to mark as sold out']);
+            return response()->json(['message' => 'No matching rows found to mark as sold']);
         }
     }
 
