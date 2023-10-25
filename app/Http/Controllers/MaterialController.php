@@ -54,8 +54,10 @@ class MaterialController extends Controller
         ]);
 
         $supplier = Material::where('id', $idMaterial)->first();
+        $supplierName = Supplier::where('id', $supplier->id)->value('agent_name');
+        $supplierLastName = Supplier::where('id', $supplier->id)->value('agent_lastname');
 
-        $name = "Factura de - " . $supplier->agent_name . $supplier->agent_lastname;
+        $name = "Factura de - " . $supplierName . $supplierLastName;
 
         $bill = Bill::create([
             'name' => $name,
@@ -92,7 +94,10 @@ class MaterialController extends Controller
 
         $supplier = Material::where('id', $idMaterial)->first();
 
-        $name = "Factura de - " . $supplier->agent_name . $supplier->agent_lastname;
+        $supplierName = Supplier::where('id', $supplier->id)->value('agent_name');
+        $supplierLastName = Supplier::where('id', $supplier->id)->value('agent_lastname');
+
+        $name = "Factura de - " . $supplierName . $supplierLastName;
 
         $bill = Bill::create([
             'name' => $name,
