@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Bill;
+use App\Models\Bill_lines;
 use App\Models\Inventory;
 use App\Models\Material;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use App\Models\Supplier;
 use App\Models\User;
@@ -89,6 +92,30 @@ class SupplierController extends Controller
 
         Inventory::create([
             'material_id' => $material->id,
+        ]);
+
+        $name = "Factura de - " . $request->agent_name . $request->agent_lastname;
+
+        $bill = Bill::create(
+            [
+                'name' => $name,
+                'suppliers_id' => $supplier->id,
+                'user_id' => Auth::user()->id,
+            ]
+        );
+
+        $bill_lines = Bill_lines::create([
+            'unity' => 1,
+            'material_id' => $material->id,
+            'bill_id' => $bill->id,
+        ]);
+
+        $mprice = Material::where('id', $material->id)->value('price');
+
+        $total = $mprice;
+
+        $bill->update([
+            'total' => $total,
         ]);
     }
 

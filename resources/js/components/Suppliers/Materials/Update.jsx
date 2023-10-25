@@ -117,7 +117,7 @@ function Update({ updateUserList, data }) {
                                 </div>
                                 <div className='pe-2'>
                                     <Button variant="secondary" onClick={x5Materials}>
-                                        <i class="fa-solid fa-5"></i>
+                                        <i className="fa-solid fa-5"></i>
                                     </Button>
                                 </div>
                             </div>
@@ -134,7 +134,7 @@ function Update({ updateUserList, data }) {
                                 </div>
                                 <div className='pe-2'>
                                     <Button variant="secondary" onClick={_5Materials}>
-                                        <i class="fa-solid fa-5"></i>
+                                        <i className="fa-solid fa-5"></i>
                                     </Button>
                                 </div>
                             </div>

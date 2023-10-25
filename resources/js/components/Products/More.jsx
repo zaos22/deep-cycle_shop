@@ -53,9 +53,6 @@ function More({ idProduct, update }) {
                             <input type="number" autoComplete="off" className="form-control" id="stock" aria-describedby="stock"
                                 defaultValue={info.stock}
                             />
-                            <div className="alert alert-info">
-                                Refresh the page to get the updated stock
-                            </div>
                         </div>
                         <div className="mb-3">
                             <label htmlFor="mountedby" className="form-label">Mounted By</label>

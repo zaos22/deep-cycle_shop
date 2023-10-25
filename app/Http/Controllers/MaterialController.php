@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreMaterialRequest;
 use App\Http\Requests\UpdateMaterialRequest;
+use App\Models\Bill;
+use App\Models\Bill_lines;
 use App\Models\Inventory;
 use App\Models\Material;
 use App\Models\Supplier;
@@ -51,6 +53,29 @@ class MaterialController extends Controller
             'material_id' => $idMaterial,
         ]);
 
+        $supplier = Material::where('id', $idMaterial)->first();
+
+        $name = "Factura de - " . $supplier->agent_name . $supplier->agent_lastname;
+
+        $bill = Bill::create([
+            'name' => $name,
+            'suppliers_id' => $supplier->id,
+            'user_id' => auth()->user()->id,
+        ]);
+
+        $bill_lines = Bill_lines::create([
+            'unity' => 1,
+            'material_id' => $idMaterial,
+            'bill_id' => $bill->id,
+        ]);
+
+        $mprice = Material::where('id', $idMaterial)->value('price');
+
+        $total = $mprice;
+
+        $bill->update([
+            'total' => $total,
+        ]);
 
         // Devuelve una respuesta adecuada, por ejemplo:
         return response()->json(['message' => 'The material duplicated']);
@@ -58,15 +83,39 @@ class MaterialController extends Controller
 
     public function duplicate($idMaterial)
     {
-        // Crea 5 filas con el mismo 'product_id'
+        // Crea 5 filas con el mismo 'material_id'
         for ($i = 0; $i < 5; $i++) {
             Inventory::create([
                 'material_id' => $idMaterial,
             ]);
         }
 
+        $supplier = Material::where('id', $idMaterial)->first();
+
+        $name = "Factura de - " . $supplier->agent_name . $supplier->agent_lastname;
+
+        $bill = Bill::create([
+            'name' => $name,
+            'suppliers_id' => $supplier->id,
+            'user_id' => auth()->user()->id,
+        ]);
+
+        $bill_lines = Bill_lines::create([
+            'unity' => 5,
+            'material_id' => $idMaterial,
+            'bill_id' => $bill->id,
+        ]);
+
+        $mprice = Material::where('id', $idMaterial)->value('price');
+
+        $total = $mprice * 5;
+
+        $bill->update([
+            'total' => $total,
+        ]);
+
         // Devuelve una respuesta adecuada, por ejemplo:
-        return response()->json(['message' => '5 materials duplicated']);
+        return response()->json(['message' => '5 materiales duplicados']);
     }
 
     public function used1($idMaterial)

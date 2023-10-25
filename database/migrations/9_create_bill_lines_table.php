@@ -14,10 +14,9 @@ return new class extends Migration
         Schema::create('bill_lines', function (Blueprint $table) {
             $table->id();
             $table->integer('unity');
-            $table->foreignId('product_id')->references('id')->on('products')->nullable()->onDelete('cascade');
-            $table->foreignId('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreignId('product_id')->nullable()->references('id')->on('products')->onDelete('cascade');
             $table->foreignId('bill_id')->references('id')->on('bills')->onDelete('cascade');
-            $table->foreignId('material_id')->references('id')->on('materials')->nullable()->onDelete('cascade');
+            $table->foreignId('material_id')->nullable()->references('id')->on('materials')->onDelete('cascade');
             $table->timestamps();
         });
     }

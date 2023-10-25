@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Bill;
+use App\Models\Bill_lines;
 use App\Models\Inventory;
 use App\Models\Montage;
 use App\Models\Product;
@@ -106,10 +108,16 @@ class ProductController extends Controller
         return response()->json(['message' => '5 products duplicated']);
     }
 
-    public function sell1($idProduct)
+    public function sell1(Request $request, $idProduct)
     {
         // Elimina una fila donde 'product_id' coincide con $idProduct y limita la eliminación a una fila
         $deletedRows = Inventory::where('product_id', $idProduct)->limit(1)->delete();
+
+        $bill_lines = Bill_lines::create([
+            'unity' => $request->unity,
+            'product_id' => $idProduct,
+            'bill_id' => $request->bill_id,
+        ]);
 
         if ($deletedRows > 0) {
             return response()->json(['message' => 'One product is marked as sold']);

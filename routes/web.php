@@ -6,6 +6,8 @@ use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\MaterialController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\MontageController;
+use App\Http\Controllers\BillController;
+use App\Http\Controllers\BillLinesController;
 use App\Models\Montage;
 use App\Models\Product;
 use Illuminate\Support\Facades\Route;
@@ -79,6 +81,13 @@ Route::delete('/sell1-product/{idProduct}', [ProductController::class, 'sell1'])
 Route::delete('/sell-product/{idProduct}', [ProductController::class, 'sell'])->name('sell-product');
 Route::delete('/soldout-product/{idProduct}', [ProductController::class, 'soldout'])->name('soldout-product');
 Route::delete('/del-montage/{montage}', [MontageController::class, 'destroy'])->name('del-montage');
+
+Route::get('/bills', function () {
+    return view('admin.bills');
+})->middleware(['auth', 'verified'])->name('bills');
+
+Route::get('/bills-data/{search?}', [BillController::class, 'index'])->name('bills-data');
+Route::get('/bill_lines/{billID}/{search?}', [BillLinesController::class, 'index'])->name('bill_lines');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

@@ -5,62 +5,41 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreBill_linesRequest;
 use App\Http\Requests\UpdateBill_linesRequest;
 use App\Models\Bill_lines;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class BillLinesController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    public function index(Request $request, $billID)
     {
-        //
+        // Realiza una consulta en la base de datos para obtener información de las líneas de factura
+        $data = DB::table('bill_lines')
+            ->leftJoin('materials', 'materials.id', '=', 'bill_lines.material_id')
+            ->leftJoin('products', 'products.id', '=', 'bill_lines.product_id')
+            ->join('bills', 'bills.id', '=', 'bill_lines.bill_id')
+            ->select('bill_lines.id', 'bill_lines.unity', 'bills.name as bill_name','products.name as product_name', 'materials.type as material_name')
+            ->where('bill_lines.id', $billID);
+
+        // Obtiene los parámetros de búsqueda del Request
+        $search = $request->input('search');
+
+        // Aplica filtros de búsqueda si se proporcionan
+        if (!empty($search)) {
+            $data->where(function ($query) use ($search) {
+                $query->where('products.name', 'like', '%' . $search . '%')
+                    ->orWhere('materials.type', 'like', '%' . $search . '%');
+            });
+        }
+
+        // Ejecuta la consulta y obtén los resultados
+        $result = $data->get();
+
+        // Devuelve los resultados de la consulta en formato JSON como respuesta
+        return response()->json($result);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    public function destroy(Bill_lines $idBill)
     {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(StoreBill_linesRequest $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(Bill_lines $bill_lines)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Bill_lines $bill_lines)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(UpdateBill_linesRequest $request, Bill_lines $bill_lines)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Bill_lines $bill_lines)
-    {
-        //
+        $idBill->delete();
     }
 }
