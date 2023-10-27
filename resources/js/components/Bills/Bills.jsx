@@ -50,24 +50,32 @@ export default function Bills() {
         doc.text('Bill', 105, 15);
         doc.text(' ', 105, 15);
 
-        // Información de la factura
-        doc.setFontSize(10);
-        doc.setFont('helvetica', 'normal');
-        // Linia con nombre de factura y fecha
-        doc.text(`Bill Name: ${bill.name}`, 10, 30);
-        doc.text(`Date: ${bill.date == null ? 'Pending' : bill.date.substring(0, 10)}`, 160, 30);
-        // Linia con cliente y proveedor
-        doc.text(`Client: ${bill.client}`, 10, 50);
-        doc.text(`Supplier: ${bill.supplier}`, 160, 50);
+        const columns = ["Bill Name", "Client", "Supplier", "Date"];
+        const rows = [];
+
+        rows.push([
+            bill.name,
+            bill.client,
+            bill.supplier,
+            bill.date == null ? 'Pending' : bill.date.substring(0, 10)
+        ])
+
+        doc.autoTable({
+            head: [columns],
+            body: rows,
+            startY: 25,
+            theme: "striped",
+            styles: { halign: "center" },
+        });
 
         // Obtener líneas de factura
         const billLines = await getBillLines(bill.id);
 
-        const columns = ["Unity", "Description", "Price"];
-        const rows = [];
+        const columns1 = ["Unity", "Description", "Price"];
+        const rows1 = [];
 
         billLines.forEach((line) => {
-            rows.push([
+            rows1.push([
                 line.unity,
                 `${line.product_name == null ? line.material_name : line.product_name}`,
                 line.unity !== 1 ? bill.total / 5 : bill.total,
@@ -75,9 +83,9 @@ export default function Bills() {
         });
 
         doc.autoTable({
-            head: [columns],
-            body: rows,
-            startY: 70,
+            head: [columns1],
+            body: rows1,
+            startY: 50,
             theme: "striped",
             styles: { halign: "center" },
         });
@@ -89,10 +97,11 @@ export default function Bills() {
 
         // Totales
         doc.setFontSize(14);
-        doc.text(`Subtotal: €${subtotal.toFixed(2)}`, 10, doc.autoTable.previous.finalY + 20);
-        doc.text(`Tax (25%): €${tax.toFixed(2)}`, 10, doc.autoTable.previous.finalY + 30);
+        doc.text(`Subtotal: €${subtotal.toFixed(2)}`, 150, doc.autoTable.previous.finalY + 20); // Alinea a la derecha
+        doc.text(`Tax (25%): €${tax.toFixed(2)}`, 150, doc.autoTable.previous.finalY + 30); // Alinea a la derecha
         doc.setFont('helvetica', 'bold');
-        doc.text(`Grand Total: €${grandTotal.toFixed(2)}`, 10, doc.autoTable.previous.finalY + 40);
+        doc.text(`Grand Total: €${grandTotal.toFixed(2)}`, 150, doc.autoTable.previous.finalY + 40); // Alinea a la derecha
+
 
         // Genera una URL de datos del PDF
         const pdfDataUri = doc.output('datauristring');
