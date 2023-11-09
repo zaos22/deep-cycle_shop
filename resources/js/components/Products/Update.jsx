@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Swal from 'sweetalert2';
 import ModalComponent from "../ModalComponent";
 import Modal from 'react-bootstrap/Modal';
@@ -6,6 +6,15 @@ import Button from 'react-bootstrap/Button';
 
 function Update({ updateUserList, data }) {
     const [showModal, setShowModal] = useState(false);
+    const [storedDiscount, setStoredDiscount] = useState(0);
+
+    useEffect(() => {
+        // Retrieve the stored discount when the component mounts
+        const storedDiscount = localStorage.getItem('appliedDiscount');
+        if (storedDiscount) {
+            setStoredDiscount(parseFloat(storedDiscount));
+        }
+    }, []);
 
     const handleShowModal = () => {
         setShowModal(true);
@@ -41,6 +50,10 @@ function Update({ updateUserList, data }) {
         updateUserList();
         handleCloseModal();
         Swal.fire('Edited!', '', 'success');
+
+        // Save the applied discount to localStorage
+        localStorage.setItem('appliedDiscount', discount);
+        setStoredDiscount(discount);
     };
 
     const openEdit = () => {
@@ -50,6 +63,8 @@ function Update({ updateUserList, data }) {
         setDesc(data.description);
         setPrice(data.price);
         setNum(data.num_serie);
+        // Set the stored discount when opening the modal
+        setDiscount(storedDiscount);
     };
 
     return (
@@ -106,6 +121,8 @@ function Update({ updateUserList, data }) {
                             <input type="number" autoComplete="off" className="form-control" required id="discount"
                                 value={discount}
                                 onChange={(e) => setDiscount(e.target.value)} />
+                            {/* Display the stored discount */}
+                            <label>Applied Discount: {storedDiscount}%</label>
                         </div>
                     </div>
                     <div className="modal-footer">
