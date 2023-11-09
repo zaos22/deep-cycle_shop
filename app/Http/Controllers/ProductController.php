@@ -170,7 +170,7 @@ class ProductController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'brand' => ['required', 'string', 'max:255'],
             'description' => ['required', 'string', 'max:255'],
-            'price' => ['required', 'integer'],
+            'price' => ['required', 'regex:/^\d+(\.\d{1,2})?$/'],
             'num_serie' => ['required', 'string', 'max:255', 'unique:products,num_serie,' . $idProduct->id],
         ]);
 

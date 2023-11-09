@@ -15,30 +15,36 @@ function Update({ updateUserList, data }) {
         setShowModal(false);
     };
 
-    const updateProducts = 'http://localhost/edit-product'
+    const updateProducts = 'http://localhost/edit-product';
 
-    const [brand, setBrand] = useState('')
-    const [name, setName] = useState('')
-    const [desc, setDesc] = useState('')
-    const [num_serie, setNum] = useState('')
-    const [price, setPrice] = useState(0)
+    const [brand, setBrand] = useState('');
+    const [name, setName] = useState('');
+    const [desc, setDesc] = useState('');
+    const [num_serie, setNum] = useState('');
+    const [price, setPrice] = useState(0);
+    const [discount, setDiscount] = useState(0);
 
     const updateProduct = async (e) => {
         e.preventDefault();
+
+        // Calculate the discounted price before sending the update request
+        const discountedPrice = price - (price * discount / 100);
+
         await axios.put(updateProducts + '/' + data.id, {
             brand: brand,
             name: name,
             description: desc,
             num_serie: num_serie,
-            price: price,
+            price: discountedPrice, // Use the discounted price in the request
         });
-        updateUserList()
-        handleCloseModal()
-        Swal.fire('Edited!', '', 'success')
+
+        updateUserList();
+        handleCloseModal();
+        Swal.fire('Edited!', '', 'success');
     };
 
     const openEdit = () => {
-        handleShowModal()
+        handleShowModal();
         setBrand(data.brand);
         setName(data.name);
         setDesc(data.description);
@@ -92,6 +98,14 @@ function Update({ updateUserList, data }) {
                             <input type="number" autoComplete="off" className="form-control" required id="price"
                                 value={price}
                                 onChange={(e) => setPrice(e.target.value)} />
+                        </div>
+                    </div>
+                    <div className="d-flex justify-content-between">
+                        <div className="mb-3">
+                            <label htmlFor="discount" className="form-label">Discount</label>
+                            <input type="number" autoComplete="off" className="form-control" required id="discount"
+                                value={discount}
+                                onChange={(e) => setDiscount(e.target.value)} />
                         </div>
                     </div>
                     <div className="modal-footer">
