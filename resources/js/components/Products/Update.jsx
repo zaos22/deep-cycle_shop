@@ -7,12 +7,19 @@ import Button from 'react-bootstrap/Button';
 function Update({ updateUserList, data }) {
     const [showModal, setShowModal] = useState(false);
     const [storedDiscount, setStoredDiscount] = useState(0);
+    const [originalPrice, setOriginalPrice] = useState(data.price);
 
     useEffect(() => {
-        // Retrieve the stored discount when the component mounts
+        // Retrieve the stored discount and original price when the component mounts
         const storedDiscount = localStorage.getItem('appliedDiscount');
+        const originalPrice = localStorage.getItem('originalPrice');
+
         if (storedDiscount) {
             setStoredDiscount(parseFloat(storedDiscount));
+        }
+
+        if (originalPrice) {
+            setOriginalPrice(parseFloat(originalPrice));
         }
     }, []);
 
@@ -51,9 +58,11 @@ function Update({ updateUserList, data }) {
         handleCloseModal();
         Swal.fire('Edited!', '', 'success');
 
-        // Save the applied discount to localStorage
+        // Save the applied discount and original price to localStorage
         localStorage.setItem('appliedDiscount', discount);
+        localStorage.setItem('originalPrice', price);
         setStoredDiscount(discount);
+        setOriginalPrice(price);
     };
 
     const openEdit = () => {
@@ -66,6 +75,7 @@ function Update({ updateUserList, data }) {
         // Set the stored discount when opening the modal
         setDiscount(storedDiscount);
     };
+
 
     return (
         <>
@@ -121,8 +131,9 @@ function Update({ updateUserList, data }) {
                             <input type="number" autoComplete="off" className="form-control" required id="discount"
                                 value={discount}
                                 onChange={(e) => setDiscount(e.target.value)} />
-                            {/* Display the stored discount */}
-                            <label>Applied Discount: {storedDiscount}%</label>
+                            {/* Display the stored discount and original price */}
+                            <div><label>Applied Discount: {storedDiscount}%</label></div>
+                            <div><label>Original Price: {originalPrice}</label></div>
                         </div>
                     </div>
                     <div className="modal-footer">
