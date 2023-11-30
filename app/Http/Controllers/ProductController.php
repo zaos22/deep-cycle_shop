@@ -9,6 +9,8 @@ use App\Models\Montage;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
+
 
 class ProductController extends Controller
 {
@@ -68,7 +70,11 @@ class ProductController extends Controller
             'price' => ['required', 'integer'],
             'montage_id' => ['required', 'integer'],
             'num_serie' => ['required', 'string', 'max:255', 'unique:' . Product::class],
+            'image' => ['required', 'image', 'max:2048'],
         ]);
+
+        $imagePath = $request->file('image')->store('public/products');
+        $imageUrl = Storage::url($imagePath);
 
         $product = Product::create([
             'name' => $request->name,
@@ -76,7 +82,8 @@ class ProductController extends Controller
             'description' => $request->description,
             'price' => $request->price,
             'num_serie' => $request->num_serie,
-            'montage_id' => $request->montage_id
+            'montage_id' => $request->montage_id,
+            'image_url' => $imageUrl,
         ]);
 
         Inventory::create([

@@ -62,6 +62,9 @@ export default function Products() {
                 <thead>
                     <tr className="colorbg shadow-lg rounded-lg text-black">
                         <th className="px-6 py-3 uppercase">
+                            Image
+                        </th>
+                        <th className="px-6 py-3 uppercase">
                             Name
                         </th>
                         <th className="px-6 py-3 uppercase">
@@ -82,6 +85,15 @@ export default function Products() {
                 <tbody className="custom-tbody text-center">
                     {products.map((product) => (
                         <tr key={product.id} className="headerbg1">
+                            <td>
+                                {product.image_url && (
+                                    <img
+                                        src={product.image_url}
+                                        alt={`Image of ${product.name}`}
+                                        style={{ maxWidth: '50px', maxHeight: '50px' }}
+                                    />
+                                )}
+                            </td>
                             <td>{product.name}</td>
                             <td>{product.brand}</td>
                             <td>{product.description}</td>

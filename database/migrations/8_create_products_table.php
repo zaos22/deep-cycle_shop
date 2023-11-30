@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('description');
             $table->string('num_serie');
             $table->double('price');
+            $table->string('image_url');
             $table->foreignId('montage_id')->references('id')->on('montages')->onDelete('cascade');
             $table->timestamps();
         });

@@ -12,6 +12,7 @@ class Product extends Model
         'brand',
         'description',
         'num_serie',
+        'image_url',
         'price',
         'montage_id',
     ];

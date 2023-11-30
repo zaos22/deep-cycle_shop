@@ -55,19 +55,26 @@ function Create({ updateUserList }) {
     const [name, setName] = useState('')
     const [desc, setDesc] = useState('')
     const [num_serie, setNum] = useState('')
+    const [image, setImage] = useState('')
     const [price, setPrice] = useState(0)
 
     const storeProducts = async (e) => {
         e.preventDefault();
 
         try {
-            await axios.post(storeProduct, {
-                brand: brand,
-                name: name,
-                description: desc,
-                num_serie: num_serie,
-                price: price,
-                montage_id: montage,
+            const formData = new FormData();
+            formData.append('brand', brand);
+            formData.append('name', name);
+            formData.append('description', desc);
+            formData.append('num_serie', num_serie);
+            formData.append('price', price);
+            formData.append('montage_id', montage);
+            formData.append('image', image);
+
+            await axios.post(storeProduct, formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                },
             });
 
             // El pedido se realizó con éxito
@@ -80,6 +87,7 @@ function Create({ updateUserList }) {
             setDesc("");
             setNum("");
             setPrice(0);
+            setImage(''); // Limpiar el estado de la imagen después de enviarla
         } catch (error) {
             // Manejar errores aquí
             console.error(error);
@@ -115,7 +123,7 @@ function Create({ updateUserList }) {
                 show={showModal}
                 onHide={handleCloseModal}
             >
-                <form onSubmit={storeProducts}>
+                <form onSubmit={storeProducts} encType="multipart/form-data">
                     <div className="d-flex justify-content-between">
                         <div className="mb-3">
                             <label htmlFor="brand" className="form-label">Brand</label>
@@ -166,6 +174,16 @@ function Create({ updateUserList }) {
                                     </label>
                                 </div>
                             ))}
+                        </div>
+                        <div className="mb-3">
+                            <label htmlFor="image" className="form-label">Image</label>
+                            <input
+                                type="file"
+                                className="form-control"
+                                id="image"
+                                accept="image/*"
+                                onChange={(e) => setImage(e.target.files[0])}
+                            />
                         </div>
                     </div>
                     <div className="modal-footer">
