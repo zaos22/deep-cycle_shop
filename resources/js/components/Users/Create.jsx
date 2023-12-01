@@ -112,13 +112,13 @@ function Create({ updateUserList }) {
                     <div className="d-flex justify-content-between">
                         <div className="mb-3">
                             <label htmlFor="salary" className="form-label">Salary</label>
-                            <input type="number" autoComplete="off" className="form-control" required id="salary"
+                            <input type="number" autoComplete="off" className="form-control" id="salary"
                                 value={salary}
                                 onChange={(e) => setSalary(e.target.value)} />
                         </div>
                         <div className="mb-3">
                             <label htmlFor="paydate" className="form-label">Payday</label>
-                            <input type="date" autoComplete="off" className="form-control" required id="paydate"
+                            <input type="date" autoComplete="off" className="form-control" id="paydate"
                                 value={paydate}
                                 onChange={(e) => setPaydate(e.target.value)} />
                         </div>

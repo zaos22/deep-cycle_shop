@@ -68,7 +68,7 @@ Route::get('/products', function () {
     return view('admin.products');
 })->middleware(['auth', 'verified', 'role_verify'])->name('products');
 
-Route::get('/products-data/{search?}', [ProductController::class, 'index'])->name('products-data')->middleware('role_verify');
+Route::get('/products-data/{search?}', [ProductController::class, 'index'])->name('products-data');
 Route::get('/moreinfo/{idProduct}', [ProductController::class, 'moreInfo'])->name('moreinfo')->middleware('role_verify');
 Route::post('/new-product', [ProductController::class, 'store'])->name('new-product')->middleware('role_verify');
 Route::post('/duplicate1-product/{idProduct}', [ProductController::class, 'duplicate1'])->name('duplicate1-product')->middleware('role_verify');

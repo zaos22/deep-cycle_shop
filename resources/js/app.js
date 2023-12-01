@@ -4,6 +4,7 @@ import './components/Users/Users';
 import './components/Suppliers/Suppliers';
 import './components/Products/Products';
 import './components/Bills/Bills';
+import './components/Shop/Client';
 
 import Alpine from 'alpinejs';
 import 'bootstrap/dist/css/bootstrap.min.css';

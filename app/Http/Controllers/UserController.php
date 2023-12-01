@@ -56,9 +56,9 @@ class UserController extends Controller
             'phone' => ['required', 'integer'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:' . User::class],
             'role' => ['required', 'string', 'max:255'],
-            'password' => ['nullable', 'string', 'min:6'], // Validación para la nueva contraseña
-            'salary' => ['required', 'integer'],
-            'payday' => ['date']
+            'password' => ['required', 'string', 'min:6'], // Validación para la nueva contraseña
+            'salary' => ['nullable', 'integer'],
+            'payday' => ['nullable','date']
         ]);
 
         $user = User::create([
