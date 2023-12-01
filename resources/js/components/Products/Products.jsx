@@ -39,6 +39,14 @@ export default function Products() {
         getProducts(searchTerm === '' ? null : searchTerm);
     };
 
+    function getFileNameFromUrl(url) {
+        // Dividir la URL por '/'
+        const urlParts = url.split('/');
+        // El nombre del archivo es el último fragmento de la URL
+        const fileName = urlParts[urlParts.length - 1];
+        return fileName;
+    }
+
     return (
         <div>
             <div>
@@ -85,12 +93,16 @@ export default function Products() {
                 <tbody className="custom-tbody text-center">
                     {products.map((product) => (
                         <tr key={product.id} className="headerbg1">
-                            <td>
+                            <td className="text-center">
                                 {product.image_url && (
                                     <img
-                                        src={product.image_url}
+                                        src={`http://localhost${product.image_url}`}
                                         alt={`Image of ${product.name}`}
-                                        style={{ maxWidth: '50px', maxHeight: '50px' }}
+                                        style={{ maxWidth: '100px', maxHeight: '100px' }}
+                                        onError={(e) => {
+                                            // Manejar errores de carga de imagen aquí
+                                            console.error("Error cargando la imagen:", e);
+                                        }}
                                     />
                                 )}
                             </td>

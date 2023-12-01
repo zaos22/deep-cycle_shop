@@ -25,6 +25,7 @@ class ProductController extends Controller
                 'products.description',
                 'products.price',
                 'products.num_serie',
+                'products.image_url',
                 'products.montage_id'
             );
 
