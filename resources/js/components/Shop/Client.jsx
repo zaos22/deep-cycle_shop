@@ -22,12 +22,12 @@ function ShoppingCartIcon({ selectedProducts, onCheckout }) {
                             <p>{product.price}</p>
                         </div>
                     ))}
-                    <Button variant="primary" onClick={onCheckout}>Checkout</Button>
+                    <div>Cart</div>
                 </Tooltip>
             }
         >
             <div style={{ position: 'fixed', bottom: '10px', right: '10px', cursor: 'pointer' }}>
-                <FaShoppingCart size={30} />
+                <FaShoppingCart onClick={onCheckout} size={30} />
             </div>
         </OverlayTrigger>
     );
