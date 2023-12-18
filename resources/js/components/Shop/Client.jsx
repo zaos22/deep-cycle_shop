@@ -8,6 +8,7 @@ import Button from 'react-bootstrap/Button';
 import { FaShoppingCart } from 'react-icons/fa';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Tooltip from 'react-bootstrap/Tooltip';
+import Checkout from "./Check";
 
 // New ShoppingCartIcon component
 function ShoppingCartIcon({ selectedProducts, onCheckout }) {
@@ -36,6 +37,7 @@ function ShoppingCartIcon({ selectedProducts, onCheckout }) {
 export default function Clients() {
     const [products, setProducts] = useState([]);
     const [selectedProducts, setSelectedProducts] = useState([]);
+    const [showCheckout, setShowCheckout] = useState(false);
 
     useEffect(() => {
         getProducts();
@@ -56,7 +58,8 @@ export default function Clients() {
 
     const handleCheckout = () => {
         // Implement your logic to redirect to the checkout page or perform other checkout actions
-        window.location.href = '/checkout';
+        // window.location.href = '/checkout';
+        setShowCheckout(true);
     }
 
     return (
@@ -70,7 +73,7 @@ export default function Clients() {
                                 <div>
                                     <p><strong>Brand:</strong> {product.brand}</p>
                                     <p><strong>Description:</strong> {product.description}</p>
-                                    <p><strong>Price:</strong> {product.price}</p>
+                                    <p><strong>Price:</strong> {product.price} €</p>
                                 </div>
                             </Tooltip>
                         }
@@ -101,6 +104,7 @@ export default function Clients() {
                     <ShoppingCartIcon selectedProducts={selectedProducts} onCheckout={handleCheckout} />
                 </div>
             </div>
+            <Checkout show={showCheckout} onHide={() => setShowCheckout(false)} selectedProducts={selectedProducts} />
         </Row>
     );
 }

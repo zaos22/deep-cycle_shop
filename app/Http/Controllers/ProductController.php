@@ -14,6 +14,51 @@ use Illuminate\Support\Facades\Storage;
 
 class ProductController extends Controller
 {
+    public function checkout(Request $request)
+    {
+        $selectedProducts = $request->input('selectedProducts');
+        $quantities = $request->input('quantities');
+        $totalPrice = $request->input('totalPrice');
+
+        // Verifica que haya productos seleccionados y cantidades
+        if (empty($selectedProducts) || empty($quantities)) {
+            return response()->json(['error' => 'No products selected for checkout'], 400);
+        }
+
+        $name = "Factura de ". auth()->user()->name;
+
+        // Crea una nueva factura
+        $bill = Bill::create([
+            'name' => $name,
+            'user_id' => auth()->user()->id,
+            'total' => $totalPrice,
+        ]);
+
+        // Procesa cada producto seleccionado
+        foreach ($selectedProducts as $product) {
+            $productId = $product['id'];
+            $quantity = $quantities[$productId] ?? 1;
+
+            // Marca los productos como vendidos y crea las líneas de factura
+            $this->sellProducts($productId, $quantity, $bill->id);
+        }
+
+        return response()->json(['billId' => $bill->id]);
+    }
+
+    // Método para marcar productos como vendidos y crear líneas de factura
+    private function sellProducts($productId, $quantity, $billId)
+    {
+        for ($i = 0; $i < $quantity; $i++) {
+            $deletedRows = Inventory::where('product_id', $productId)->limit(1)->delete();
+
+            $billLine = Bill_lines::create([
+                'unity' => 1,
+                'product_id' => $productId,
+                'bill_id' => $billId,
+            ]);
+        }
+    }
     public function index(Request $request)
     {
         // Primera consulta para la tabla 'products'

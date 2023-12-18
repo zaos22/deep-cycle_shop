@@ -87,11 +87,15 @@ Route::get('/bills', function () {
 })->middleware(['auth', 'verified', 'role_verify'])->name('bills');
 
 Route::get('/bills-data/{search?}', [BillController::class, 'index'])->name('bills-data')->middleware('role_verify');
+Route::get('/bill-data/{billID}', [BillController::class, 'index2'])->name('bill-data');
 Route::get('/bill_lines/{billID}/{search?}', [BillLinesController::class, 'index'])->name('bill_lines')->middleware('role_verify');
+Route::get('/bill_line/{billID}', [BillLinesController::class, 'index2'])->name('bill_line');
 
 Route::get('/home', function () {
     return view('client.home');
 })->middleware(['auth', 'verified'])->name('home');
+
+Route::post('/checkout', [ProductController::class, 'checkout']);
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

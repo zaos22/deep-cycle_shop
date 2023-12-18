@@ -39,6 +39,21 @@ class BillController extends Controller
         return response()->json($result);
     }
 
+    public function index2(Request $request, $BillId)
+    {
+        $data = DB::table('bills')
+            ->join('users', 'users.id', '=', 'bills.user_id')
+            ->select('bills.id as id', 'bills.name', DB::raw("CONCAT(users.name, ' ', users.lastname) as client"), 'bills.created_at as date', 'bills.total')
+            ->where('users.id', auth()->user()->id)
+            ->where('bills.id', $BillId);
+
+        // Ejecuta la consulta y obtén el primer resultado
+        $result = $data->first();
+
+        // Devuelve el resultado de la consulta en formato JSON como respuesta
+        return response()->json($result);
+    }
+
     public function destroy(Bill $idBill)
     {
         $idBill->delete();
