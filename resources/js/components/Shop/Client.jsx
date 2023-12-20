@@ -79,6 +79,7 @@ export default function Clients() {
                                     <p><strong>Brand:</strong> {product.brand}</p>
                                     <p><strong>Description:</strong> {product.description}</p>
                                     <p><strong>Price:</strong> {product.price} €</p>
+                                    <p><strong>Stock:</strong> {product.stock} €</p>
                                 </div>
                             </Tooltip>
                         }

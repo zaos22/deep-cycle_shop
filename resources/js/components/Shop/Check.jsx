@@ -40,8 +40,14 @@ function Checkout({ show, onHide, selectedProducts }) {
                 if (result.isConfirmed) {
                     Swal.fire("Paid!", "", "success");
                     generatePDF(User_bill)
+                    setTimeout(function () {
+                        location.reload();
+                    }, 1000);
                 } else if (result.isDenied) {
                     Swal.fire("Paid!", "", "success");
+                    setTimeout(function () {
+                        location.reload();
+                    }, 1000);
                 }
             });
             onHide();
@@ -143,6 +149,7 @@ function Checkout({ show, onHide, selectedProducts }) {
                     <div key={product.id}>
                         <p><strong>{product.name}</strong></p>
                         <p><strong>Price:</strong> {product.price} € each</p>
+                        <p><strong>Stock:</strong> {product.stock}</p>
                         <Form.Group controlId={`quantity-${product.id}`}>
                             <Form.Label><strong>Quantity:</strong></Form.Label>
                             <Form.Control
@@ -150,6 +157,7 @@ function Checkout({ show, onHide, selectedProducts }) {
                                 value={quantities[product.id] || 1}
                                 onChange={(event) => handleQuantityChange(product.id, event)}
                                 min="1"
+                                max={product.stock} // Establecer el límite máximo según el stock disponible
                             />
                         </Form.Group>
                         <hr />

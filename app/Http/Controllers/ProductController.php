@@ -25,7 +25,7 @@ class ProductController extends Controller
             return response()->json(['error' => 'No products selected for checkout'], 400);
         }
 
-        $name = "Factura de ". auth()->user()->name;
+        $name = "Factura de " . auth()->user()->name;
 
         // Crea una nueva factura
         $bill = Bill::create([
@@ -63,6 +63,7 @@ class ProductController extends Controller
     {
         // Primera consulta para la tabla 'products'
         $query = DB::table('products')
+            ->leftJoin('inventories', 'inventories.product_id', '=', 'products.id')
             ->select(
                 'products.id',
                 'products.name',
@@ -71,8 +72,9 @@ class ProductController extends Controller
                 'products.price',
                 'products.num_serie',
                 'products.image_url',
-                'products.montage_id'
-            );
+                'products.montage_id',
+                DB::raw('COALESCE(COUNT(inventories.product_id), 0) as stock')
+            )->groupBy('products.id');
 
         // Obtén los parámetros de búsqueda del Request
         $search = $request->input('search');
