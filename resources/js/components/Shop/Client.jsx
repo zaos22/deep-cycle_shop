@@ -56,6 +56,11 @@ export default function Clients() {
         setSelectedProducts([...selectedProducts, product]);
     }
 
+    const isButtonVisible = (product) => {
+        // Check if the stock is greater than 0
+        return product.stock > 0;
+    }
+
     const handleCheckout = () => {
         // Implement your logic to redirect to the checkout page or perform other checkout actions
         // window.location.href = '/checkout';
@@ -89,8 +94,9 @@ export default function Clients() {
                                         <Card.Title style={{ textAlign: "center", paddingBottom: '5px' }}>{product.name}</Card.Title>
                                         <Card.Text style={{ textAlign: "center" }}>
                                             <div className="d-flex justify-content-center">
-                                                <Button variant="primary" onClick={() => addToCart(product)} className="btn-custom text-center text-uppercase fw-bold">Add to Cart</Button>
-                                            </div>
+                                                {isButtonVisible(product) && (
+                                                    <Button variant="primary" onClick={() => addToCart(product)} className="btn-custom text-center text-uppercase fw-bold">Add to Cart</Button>
+                                                )}                                            </div>
                                         </Card.Text>
                                     </Card.Body>
                                 </div>
